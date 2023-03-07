@@ -96,10 +96,13 @@ class CartController {
         });
       }
 
+      const date = new Date(Date.now());
+      date.setDate(date.getDate() + 1);
       res.cookie("cart", uniqueid, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "lax",
+        expires: date,
       });
 
       const carts = await Cart.findByPk(uniqueid, {
