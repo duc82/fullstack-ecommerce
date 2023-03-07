@@ -40,6 +40,8 @@ export interface ProductState {
   category: string;
   ratingCount: number;
   desc: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 interface InitialProduct {
@@ -83,7 +85,6 @@ export const productSlice = createSlice({
       state.isLoading = false;
       state.datas = {
         ...action.payload,
-        products: [...state.datas.products, ...action.payload.products],
         product: state.datas.product,
       };
     },

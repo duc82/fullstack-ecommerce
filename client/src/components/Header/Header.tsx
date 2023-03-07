@@ -20,9 +20,8 @@ import NavDesktopRight from "../Navbar/Desktop/NavDesktopRight";
 import { motion } from "framer-motion";
 import { useGlobalContext } from "../../context/appContext";
 import { useAppSelector } from "../../hooks/redux";
-import Cart, { CartItem } from "../Cart/Cart";
-import { getCartItem } from "../../services/cart";
-import { useDispatch } from "react-redux";
+import Cart from "../Cart/Cart";
+import { Carts } from "../../redux/reducers/cartSlice";
 
 const variants = {
   open: {
@@ -76,12 +75,11 @@ const variants = {
 // ];
 
 const searchCategories = ["Sản phẩm", "Tin tức"];
-const totalCartItemCount = (arr: CartItem[]) =>
-  arr.reduce((a, b) => a + 1 * b.quantity, 0);
+const totalCartItemCount = (carts: Carts[]) =>
+  carts.reduce((a, b) => a + 1 * b.quantity, 0);
 
 const Header = () => {
   const { openNavMobile } = useGlobalContext();
-  const dispatch = useDispatch();
 
   const [searchCategory, setSearchCategory] = useState(searchCategories[0]);
   const [isOpenCategory, setOpenCategory] = useState(false);
@@ -91,10 +89,6 @@ const Header = () => {
   const { isLoggedIn } = useAppSelector((state) => state.auth);
 
   const { carts } = useAppSelector((state) => state.cart);
-
-  useEffect(() => {
-    getCartItem(`${import.meta.env.VITE_API}/api/cart/get`, dispatch);
-  }, [dispatch]);
 
   return (
     <header>

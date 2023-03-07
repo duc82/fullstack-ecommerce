@@ -1,39 +1,17 @@
 import React, { memo, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Close } from "../../icons/icons";
+import { Carts } from "../../redux/reducers/cartSlice";
 import formatVnd from "../../utils/formatVnd";
 
-export interface CartItem {
-  id: number;
-  productId: number;
-  name: string;
-  slug: string;
-  image: string;
-  cost: number;
-  quantity: number;
-  totalCost: number;
-  createdAt: Date;
-  updatedAt: Date;
+interface CartProps {
+  carts: Carts[];
 }
 
-interface Carts {
-  carts: CartItem[];
-}
+const totalCostCartReduce = (carts: Carts[]) =>
+  carts.reduce((a, b) => a + b.cost * b.quantity, 0);
 
-// Cach 1
-const totalCostCartReduce = (arr: CartItem[]) =>
-  arr.reduce((a, b) => a + b.totalCost, 0);
-// Cach 2
-const totalCostCartLoop = (arr: CartItem[]) => {
-  let total = 0;
-  for (const item of arr) {
-    total += item.totalCost;
-  }
-
-  return total;
-};
-
-const Cart = ({ carts }: Carts) => {
+const Cart = ({ carts }: CartProps) => {
   const totalCostCartItems = useMemo(() => totalCostCartReduce(carts), [carts]);
 
   return (

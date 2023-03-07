@@ -3,8 +3,8 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { useGlobalContext } from "../../context/appContext";
 import { CartShopping, Search } from "../../icons/icons";
+import { addCart } from "../../redux/reducers/cartSlice";
 import { ProductState } from "../../redux/reducers/productSlice";
-import { addCartItem } from "../../services/cart";
 import formatVnd from "../../utils/formatVnd";
 import ProductRate from "./ProductRate";
 
@@ -85,21 +85,23 @@ const ProductCard = ({ product, isCarousel = false }: ProductCard) => {
             </React.Fragment>
           )}
           <div
+            onClick={() =>
+              dispatch(
+                addCart({
+                  id: product.id,
+                  name: product.name,
+                  slug: product.slug,
+                  cost: product.cost,
+                  image: product.images[1].src,
+                  quantity: 1,
+                })
+              )
+            }
             className={`flex items-center justify-center h-0 ${
               isHoverProductCard ? "h-[92px]" : ""
             }`}
           >
             <button
-              onClick={() =>
-                addCartItem(
-                  `${import.meta.env.VITE_API}/api/cart/add`,
-                  {
-                    productId: product.id,
-                    quantity: 1,
-                  },
-                  dispatch
-                )
-              }
               className={`flex items-center space-x-1 bg-red-700 rounded-3xl h-[30px] cursor-pointer text-[13px] px-5 text-white opacity-0 text-center transition-all ease-ease duration-300 ${
                 isHoverProductCard ? "opacity-100" : ""
               }`}

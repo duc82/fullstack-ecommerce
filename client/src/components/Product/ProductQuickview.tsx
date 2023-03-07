@@ -10,6 +10,8 @@ import formatVnd from "../../utils/formatVnd";
 import useQuantity from "../../hooks/useQuantity";
 import Overlay from "../Overlay/Overlay";
 import useNavigationSwiper from "../../hooks/useNavigationSwiper";
+import { useDispatch } from "react-redux";
+import { addCart } from "../../redux/reducers/cartSlice";
 
 const duration = 0.2;
 
@@ -41,6 +43,7 @@ const ProductQuickview = () => {
     useGlobalContext();
   const { prevEl, nextEl, updatePrevEl, updateNextEl } = useNavigationSwiper();
   const [activeIndexImg, setActiveIndexImg] = useState(0);
+  const dispatch = useDispatch();
 
   const {
     quantity,
@@ -132,7 +135,7 @@ const ProductQuickview = () => {
             <div className="mb-2.5 flex items-center space-x-1">
               <ProductRate rate={product.avgRating} className="w-3.5 h-3.5" />
               <span className="text-blue-500 text-xs leading-5">
-                ({product.ratings ? product.ratings.length : 0} đánh giá)
+                ({product.ratingCount} đánh giá)
               </span>
             </div>
             <div className="flex items-stretch pb-2.5">
@@ -149,7 +152,7 @@ const ProductQuickview = () => {
             <div className="border-t border-t-zinc-200 mb-4 pt-4 text-zinc-500 line-clamp-3 font-roboto text-sm leading-6">
               {product.desc}
             </div>
-            <form className="flex items-stretch w-full">
+            <div className="flex items-stretch w-full">
               <div className="relative w-[100px] h-[50px] border border-zinc-200 border-r-0 mt-2.5">
                 <button
                   onClick={decreaseQuantity}
@@ -174,12 +177,28 @@ const ProductQuickview = () => {
                 </button>
               </div>
               <button
+                onClick={() => {
+                  console.log(!quantity);
+                  if (!quantity) {
+                    resetQuantity();
+                  }
+                  dispatch(
+                    addCart({
+                      id: product.id,
+                      name: product.name,
+                      slug: product.slug,
+                      cost: product.cost,
+                      image: product.images[1].src,
+                      quantity: !quantity ? 1 : Number(quantity),
+                    })
+                  );
+                }}
                 type="submit"
                 className="mt-2.5 font-roboto font-bold px-6 border border-red-700 text-center cursor-pointer transition-colors duration-100 ease-in flex-auto text-xl hover:bg-white hover:text-red-700 bg-red-700 text-white rounded-tr-md rounded-br-md"
               >
                 Cho vào giỏ hàng
               </button>
-            </form>
+            </div>
           </div>
           <button
             onClick={() => {

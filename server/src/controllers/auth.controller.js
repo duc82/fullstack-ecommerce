@@ -98,7 +98,7 @@ class AuthController {
       );
 
       const date = new Date(Date.now());
-      date.setMinutes(date.getMinutes() + 15);
+      date.setDate(date.getDate() + 1);
 
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
@@ -139,10 +139,14 @@ class AuthController {
         refreshTokenExpiresIn
       );
 
+      const date = new Date(Date.now());
+      date.setDate(date.getDate() + 1);
+
       res.cookie("refreshToken", newRefreshToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "Lax",
+        expires: date,
       });
 
       res.status(200).json({
