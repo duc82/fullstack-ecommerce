@@ -1,0 +1,47 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react-hooks/recommended"
+  ],
+  "overrides": [],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["react", "@typescript-eslint", "react-hooks"],
+  "rules": {
+    "@typescript-eslint/no-var-requires": 0,
+    "@typescript-eslint/ban-types": [
+      "error",
+      {
+        "types": {
+          "String": false,
+          "Boolean": false,
+          "Number": false,
+          "Symbol": false,
+          "{}": false,
+          "Object": false,
+          "object": false,
+          "Function": false
+        },
+        "extendDefaults": true
+      }
+    ],
+    "@typescript-eslint/no-empty-interface": "off",
+    "react/jsx-key": "warn",
+    "@typescript-eslint/no-explicit-any": "off"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      .link {
+        background-image: linear-gradient(
+          to right,
+          #1fa2ff 0%,
+          #12d8fa 51%,
+          #1fa2ff 100%
+        );
+        color: white !important;
+        text-align: center;
+        padding: 10px 30px;
+        text-decoration: none;
+        font-size: 16px;
+        border-radius: 4px;
+        display: inline-block;
+      }
+
+      .link:hover {
+        background-position: right center;
+      }
+    </style>
+  </head>
+  <body>
+    <p>Xin chào <%= fullName %>,</p>
+    <p>Anh/chị đã yêu cầu đổi mật khẩu tại <%= origin_client %>.</p>
+    <p>
+      Anh/chị vui lòng truy cập vào liên kết dưới đây để thay đổi mật khẩu của
+      Anh/chị nhé.
+    </p>
+    <a
+      target="_blank"
+      href="<%= verifyLink %>"
+      class="link"
+      style="transition: all ease 0.5s"
+      >Đặt lại mật khẩu
+    </a>
+  </body>
+</html>
