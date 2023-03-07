@@ -97,10 +97,14 @@ class AuthController {
         refreshTokenExpiresIn
       );
 
+      const date = new Date(Date.now());
+      date.setMinutes(date.getMinutes() + 15);
+
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         secure: true,
         sameSite: "Lax",
+        expires: date,
       });
 
       res.status(200).json({
