@@ -1,4 +1,4 @@
-# Fullstack Ecommerce Website
+# Zumi E-commerce Website
 
 ## Techstack
 
