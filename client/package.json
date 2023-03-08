@@ -19,6 +19,7 @@
     "react-loading-skeleton": "^3.1.0",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.4.3",
+    "react-share": "^4.4.1",
     "redux-persist": "^6.0.0",
     "swiper": "^9.0.3"
   },

@@ -10,7 +10,7 @@ import { Close, Filter } from "../icons/icons";
 import { motion } from "framer-motion";
 import Overlay from "../components/Overlay/Overlay";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import { getProduct } from "../services/products";
+import { getProducts } from "../services/products";
 
 const duration = 0.3;
 
@@ -58,7 +58,7 @@ const Product = ({ title }: { title: string }) => {
   };
 
   useEffect(() => {
-    getProduct(
+    getProducts(
       `${import.meta.env.VITE_API}/api/product/get/${
         title === "Sản phẩm" ? "Tất cả sản phẩm" : title
       }`,

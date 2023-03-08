@@ -8,8 +8,6 @@ import { ChevronLeft, ChevronRight, StarFull, User } from "../icons/icons";
 import ProductRate from "../components/Product/ProductRate";
 import formatVnd from "../utils/formatVnd";
 import useQuantity from "../hooks/useQuantity";
-import useScript from "../hooks/useScript";
-import useAddThis from "../hooks/useAddThis";
 import Overlay from "../components/Overlay/Overlay";
 import { motion } from "framer-motion";
 import "swiper/css";
@@ -23,6 +21,13 @@ import { useAppSelector } from "../hooks/redux";
 import { useDispatch } from "react-redux";
 import NotFound from "./NotFound";
 import SkeletonProductOverview from "../components/Skeleton/SkeletonProductOverview";
+import { getProductBySlug } from "../services/products";
+import {
+  FacebookShareButton,
+  FacebookIcon,
+  TwitterShareButton,
+  TwitterIcon,
+} from "react-share";
 
 const duration = 0.3;
 
@@ -84,8 +89,6 @@ const ProductOverview = () => {
     error,
   } = useAppSelector((state) => state.product);
 
-  useScript(import.meta.env.VITE_ADDTHIS_PLUGIN);
-  useAddThis();
   useStyleBody({
     active: isActiveReview,
     className: "overflow-hidden",
@@ -119,12 +122,12 @@ const ProductOverview = () => {
     setIndexActiveStar(index);
   };
 
-  // useEffect(() => {
-  //   getProductByTag(
-  //     `${import.meta.env.VITE_API}/api/product/get${pathname}`,
-  //     dispatch
-  //   );
-  // }, [pathname, dispatch]);
+  useEffect(() => {
+    getProductBySlug(
+      `${import.meta.env.VITE_API}/api/product/getProductBySlug${pathname}`,
+      dispatch
+    );
+  }, [pathname, dispatch]);
 
   if (isLoading) {
     return <SkeletonProductOverview />;
@@ -332,7 +335,7 @@ const ProductOverview = () => {
                           href="#reviews"
                           className="text-blue-500 text-xs leading-5"
                         >
-                          ({product.reviews.length} đánh giá)
+                          ({product.ratingCount} đánh giá)
                         </a>
                       </div>
                       <div>
@@ -361,9 +364,7 @@ const ProductOverview = () => {
 
                       <li className="list-disc list-outside text-zinc-500">
                         <span>Dòng sản phẩm:</span>{" "}
-                        <span className="uppercase">
-                          {product.tags[0].category}
-                        </span>
+                        <span className="uppercase">{product.category}</span>
                       </li>
 
                       <li className="list-disc list-outside text-zinc-500">
@@ -414,27 +415,33 @@ const ProductOverview = () => {
                     <div className="mb-2.5">
                       <span className="w-24 inline-block">Tags: </span>
                       <>
-                        {product.tags.map((tag) => (
+                        {product.categories?.map((category) => (
                           <Link
-                            key={tag.id}
+                            key={category.id}
                             to="/"
                             className="text-zinc-600 hover:text-red-700 transition ease-in-out duration-150"
                           >
-                            {tag.category},{" "}
+                            {category.title},{" "}
                           </Link>
                         ))}
                       </>
                     </div>
-                    <div>
-                      <span className="mb-2.5 w-24 leading-5 inline-block">
+                    <div className="flex items-center">
+                      <span className=" w-24 leading-5 inline-block">
                         Chia sẻ:
                       </span>
-                      <div
-                        data-url={import.meta.env.VITE_ORIGIN + "/test"}
-                        data-title="Do gia dung"
-                        data-description="Mo ta"
-                        className="addthis_inline_share_toolbox share_add inline-block"
-                      ></div>
+                      <div className="inline-flex space-x-3">
+                        <FacebookShareButton
+                          url={import.meta.env.VITE_ORIGIN + "/" + product.slug}
+                        >
+                          <FacebookIcon size={24} round={true} />
+                        </FacebookShareButton>
+                        <TwitterShareButton
+                          url={import.meta.env.VITE_ORIGIN + "/" + product.slug}
+                        >
+                          <TwitterIcon size={24} round={true} />
+                        </TwitterShareButton>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -514,7 +521,7 @@ const ProductOverview = () => {
                   <div className="w-1/2">
                     <div className="pl-2.5 py-2 inline-block font-arial leading-tight">
                       <span className="text-[28px] mr-4">
-                        {product.reviews.length}
+                        {product.ratingCount}
                       </span>
                       <div className="inline-flex items-center space-x-1">
                         <StarFull className="w-4 h-5 text-yellow-500" />
