@@ -13,53 +13,53 @@ import errorHandling from "../utils/errorHandling";
 
 export const productTest: ProductState[] = [];
 
-for (let i = 0; i < 10; i++) {
-  productTest.push({
-    id: i,
-    name: `Lo vi song ${i}`,
-    slug: "lo-vi-song",
-    cost: 600000,
-    price: 1690000,
-    discount: 50,
-    bonus: "",
-    stock: 50,
-    brand: "Samsung",
-    model: "LVS",
-    currency: "VND",
-    images: [
-      {
-        id: 1,
-        src: `https://picsum.photos/1000?random=${i}`,
-        alt: "Random image",
-      },
-      {
-        id: 2,
-        src: `https://picsum.photos/1000?random=${i + 1}`,
-        alt: "Random image",
-      },
-      {
-        id: 3,
-        src: `https://picsum.photos/1000?random=${i + 2}`,
-        alt: "Random image",
-      },
-    ],
-    avgRating: 2.5,
-    status: "Còn hàng",
-    ratings: [
-      {
-        id: 1,
-        rating: 2.6,
-        name: "Duc Dang",
-        email: "example@gmail.com",
-        title: "San pham rat tot",
-        comment: "abcxyz",
-      },
-    ],
-    category: "Noi chien khong dau",
-    ratingCount: 3,
-    desc: "asdfsaf",
-  });
-}
+// for (let i = 0; i < 10; i++) {
+//   productTest.push({
+//     id: i,
+//     name: `Lo vi song ${i}`,
+//     slug: "lo-vi-song",
+//     cost: 600000,
+//     price: 1690000,
+//     discount: 50,
+//     bonus: "",
+//     stock: 50,
+//     brand: "Samsung",
+//     model: "LVS",
+//     currency: "VND",
+//     images: [
+//       {
+//         id: 1,
+//         src: `https://picsum.photos/1000?random=${i}`,
+//         alt: "Random image",
+//       },
+//       {
+//         id: 2,
+//         src: `https://picsum.photos/1000?random=${i + 1}`,
+//         alt: "Random image",
+//       },
+//       {
+//         id: 3,
+//         src: `https://picsum.photos/1000?random=${i + 2}`,
+//         alt: "Random image",
+//       },
+//     ],
+//     avgRating: 2.5,
+//     status: "Còn hàng",
+//     ratings: [
+//       {
+//         id: 1,
+//         rating: 2.6,
+//         name: "Duc Dang",
+//         email: "example@gmail.com",
+//         title: "San pham rat tot",
+//         comment: "abcxyz",
+//       },
+//     ],
+//     category: "Noi chien khong dau",
+//     ratingCount: 3,
+//     desc: "asdfsaf",
+//   });
+// }
 
 const banner1 = [
   {

@@ -20,8 +20,7 @@ router.delete(
   asyncWrapperMiddleware(async (req, res) => {
     await sequelize.query(
       `TRUNCATE TABLE "Images" RESTART IDENTITY CASCADE;
-       TRUNCATE TABLE "Reviews" RESTART IDENTITY CASCADE;
-       TRUNCATE TABLE "Tags" RESTART IDENTITY CASCADE;
+       TRUNCATE TABLE "Ratings" RESTART IDENTITY CASCADE;
        TRUNCATE TABLE "Products" RESTART IDENTITY CASCADE;`
     );
 

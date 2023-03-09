@@ -11,6 +11,7 @@ module.exports = (err, _req, res, _next) => {
     });
   } else {
     // Handle other errorr
+    console.log(err);
     const errStatus = err.status || 500;
     const errMessage = err.message || "Something went worng";
     return res.status(errStatus).json({

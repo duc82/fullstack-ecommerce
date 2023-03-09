@@ -2,6 +2,8 @@ import React, { memo, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
+import "swiper/css";
+import "swiper/css/navigation";
 import Breadcrumb from "../components/Breadcrumb/Breadcrumb";
 import Container from "../components/Container/Container";
 import { ChevronLeft, ChevronRight, StarFull, User } from "../icons/icons";
@@ -10,13 +12,10 @@ import formatVnd from "../utils/formatVnd";
 import useQuantity from "../hooks/useQuantity";
 import Overlay from "../components/Overlay/Overlay";
 import { motion } from "framer-motion";
-import "swiper/css";
-import "swiper/css/navigation";
 import ProductLists from "../components/Home/ProductLists";
 import Review from "../components/Review/Review";
 import useStyleBody from "../hooks/useStyleBody";
 import useNavigationSwiper from "../hooks/useNavigationSwiper";
-import useZoomImage from "../hooks/useZoomImage";
 import { useAppSelector } from "../hooks/redux";
 import { useDispatch } from "react-redux";
 import NotFound from "./NotFound";
@@ -28,6 +27,7 @@ import {
   TwitterShareButton,
   TwitterIcon,
 } from "react-share";
+import useZoomImage from "../hooks/useZoomImage";
 
 const duration = 0.3;
 
@@ -68,20 +68,24 @@ const ProductOverview = () => {
   const { quantity, increaseQuantity, decreaseQuantity, inputChangeQuantity } =
     useQuantity(1, 999);
   const [isActiveReview, setIsActiveReview] = useState(false);
-  const {
-    isHoverImage,
-    backgroundZoom,
-    lens,
-    mouseOverImage,
-    mouseOutImage,
-    mouseMoveImage,
-  } = useZoomImage();
-
   const [hoverStar, setHoversStar] = useState(Array(5).fill(false));
   const [indexActiveStar, setIndexActiveStar] = useState(-1);
   const [activeIndexImg, setActiveIndexImg] = useState(1);
-
   const { pathname } = useLocation();
+  const {
+    lens,
+    backgroundZoom,
+    mouseMove,
+    mouseLeave,
+    mouseOver,
+    isHoverImage,
+  } = useZoomImage({
+    lensHeight: 100,
+    lensWidth: 100,
+    backgroundZoomWidth: 420,
+    backgroundZoomHeight: 500,
+  });
+
   const dispatch = useDispatch();
   const {
     isLoading,
@@ -227,25 +231,23 @@ const ProductOverview = () => {
                       <span className="absolute top-2 right-2 z-50 w-9 h-9 rounded-full text-xs leading-none bg-red-600 text-white flex justify-center items-center font-roboto">
                         {product.discount}%
                       </span>
-                      <button className="block relative">
-                        {/* Lens */}
+                      <div
+                        className="block relative"
+                        onMouseMove={mouseMove}
+                        onMouseOver={mouseOver}
+                        onMouseLeave={mouseLeave}
+                      >
+                        {/* Thấu kính (Lens) */}
                         <div
-                          onMouseOver={mouseOverImage}
-                          onMouseOut={mouseOutImage}
-                          className="absolute bg-white opacity-40 border border-black cursor-pointer hidden"
                           style={{
                             top: `${lens.y}px`,
                             left: `${lens.x}px`,
-                            width: `${lens.width}px`,
-                            height: `${lens.height}px`,
                             display: isHoverImage ? "block" : "none",
                           }}
+                          className="absolute bg-white opacity-40 border border-black cursor-pointer w-[100px] h-[100px] top-0 left-0"
                         ></div>
 
                         <img
-                          onMouseOver={mouseOverImage}
-                          onMouseMove={mouseMoveImage}
-                          onMouseOut={mouseOutImage}
                           className="mx-auto"
                           src={product.images[activeIndexImg].src}
                           alt={product.images[activeIndexImg].alt}
@@ -254,15 +256,18 @@ const ProductOverview = () => {
                         {/* Background Image Zoom */}
                         <div
                           id="zoom-img"
-                          className="absolute top-0 -right-full z-50 h-full w-full border"
+                          className="absolute top-0 z-50 h-full w-full border-4 border-zinc-400 bg-no-repeat"
                           style={{
                             backgroundImage: `url('${product.images[activeIndexImg].src}')`,
                             backgroundSize: `${backgroundZoom.width}px ${backgroundZoom.height}px`,
-                            backgroundPosition: `-${backgroundZoom.x}px -${backgroundZoom.y}px`,
+                            backgroundPosition: `${backgroundZoom.x}px ${backgroundZoom.y}px`,
                             display: isHoverImage ? "block" : "none",
+                            width: "420px",
+                            height: "500px",
+                            left: "410px",
                           }}
                         ></div>
-                      </button>
+                      </div>
                     </div>
                     <div className="relative overflow-hidden w-full">
                       <div className="w-9/12 mx-auto">
@@ -414,17 +419,12 @@ const ProductOverview = () => {
                     </div>
                     <div className="mb-2.5">
                       <span className="w-24 inline-block">Tags: </span>
-                      <>
-                        {product.categories?.map((category) => (
-                          <Link
-                            key={category.id}
-                            to="/"
-                            className="text-zinc-600 hover:text-red-700 transition ease-in-out duration-150"
-                          >
-                            {category.title},{" "}
-                          </Link>
-                        ))}
-                      </>
+                      <Link
+                        to="/"
+                        className="text-zinc-600 hover:text-red-700 transition ease-in-out duration-150"
+                      >
+                        {product.category},{" "}
+                      </Link>
                     </div>
                     <div className="flex items-center">
                       <span className=" w-24 leading-5 inline-block">
@@ -445,70 +445,15 @@ const ProductOverview = () => {
                     </div>
                   </div>
                 </div>
-                {/* Product Information */}
+                {/* Thông tin sản phẩm */}
                 <div className="mt-7">
                   <div className="w-full border boder-zinc-200">
                     <h3 className="bg-red-700 leading-[50px] px-6 text-white uppercase border-r border-r-200 inline-block">
-                      Thông tin sản phẩm
+                      Mô tả sản phẩm
                     </h3>
                   </div>
-                  <div className="px-2.5 pt-2.5 lg:pt-7 lg:px-7 pb-5 border border-zinc-200 text-black font-timesNewRoman text-base leading-6">
-                    <p className="mb-4">
-                      <img
-                        src="//bizweb.dktcdn.net/100/009/443/files/doi-cu-so-huu-moi-web.png?v=1622793281583"
-                        alt="Img Test"
-                      />
-                    </p>
-                    <p className="mb-4">
-                      <strong className="uppercase block">
-                        Tính năng nổi bật của sản phẩm
-                      </strong>
-                    </p>
-                    <ul className="list-inside list-disc mb-4">
-                      {/* {product.features.map((feature) => (
-                        <li key={feature.id} className="mb-1.5">
-                          {feature.content}
-                        </li>
-                      ))} */}
-                    </ul>
-                    <p className="mb-4">
-                      <strong className="uppercase block">
-                        Thông số kỹ thuật
-                      </strong>
-                    </p>
-                    <p className="mb-4">
-                      <img
-                        src="//bizweb.dktcdn.net/100/009/443/files/ac102.jpg?v=1609208781597"
-                        alt="Img Test"
-                      />
-                    </p>
-                    <div className="mb-4">
-                      <div className="relative overflow-hidden w-full pt-[56.25%]">
-                        <iframe
-                          src="https://www.youtube.com/embed/nOmBSslaKIY?rel=0"
-                          title="Video nhung youtube"
-                          allowFullScreen
-                          className="focus-visible:outline-none absolute inset-0 w-full h-full"
-                        ></iframe>
-                      </div>
-                    </div>
-                    <p className="mb-4">
-                      Với sự phát triển vũ bão của ngành công nghệ - điện tử
-                      hiện nay đã và đang cho ra mắt các sản phẩm ưu việt để
-                      phục vụ cho cuộc sống của con người. Trong đó, nồi chiên
-                      nướng không dầu chính là một trong những sản phẩm ưu việt
-                      đang được rất nhiều người quan tâm không chỉ bởi sự tiện
-                      dụng mà còn bởi các ưu điểm nổi bật mà sản phẩm đem lại.
-                    </p>
-                    <p className="mb-4">
-                      Thông thường, khi sử dụng các nồi chiên truyền thống sẽ
-                      rất tốn kém chi phí nguyên liệu, thời gian chế biến mà còn
-                      gây hại cho sức khỏe khi các món ăn sẽ bị ngập dầu mỡ. Sự
-                      ra đời của nồi chiên nướng không dầu đã giúp các bà nội
-                      trợ tiết kiệm được đáng kể chi phí nguyên liệu đồng thời
-                      giúp giảm lượng dầu mỡ trong thực phẩm giúp bảo vệ sức
-                      khỏe gia đình.
-                    </p>
+                  <div className="p-2.5 md:p-5 lg:p-7 border border-zinc-200 text-black font-timesNewRoman text-base leading-6">
+                    <p>{product.desc}</p>
                   </div>
                 </div>
                 {/* Rating & reviews */}

@@ -1,70 +1,83 @@
-import { useState, MouseEvent } from "react";
+import { MouseEvent, useCallback, useState } from "react";
 
-const useZoomImage = () => {
+type Lens = {
+  lensWidth: number;
+  lensHeight: number;
+};
+
+type BackgroundZoom = {
+  backgroundZoomWidth: number;
+  backgroundZoomHeight: number;
+};
+
+const useZoomImage = ({
+  lensWidth,
+  lensHeight,
+  backgroundZoomHeight,
+  backgroundZoomWidth,
+}: Lens & BackgroundZoom) => {
   const [isHoverImage, setIsHoverImage] = useState(false);
   const [lens, setLens] = useState({
     x: 0,
     y: 0,
-    width: 100,
-    height: 100,
   });
-  const [backgroundZoom, setBackgroundZoom] = useState({
-    x: 0,
-    y: 0,
+  const [backgroundZoom, setBackgroundRoom] = useState({
     width: 0,
     height: 0,
+    x: 0,
+    y: 0,
   });
 
-  const mouseOverImage = () => setIsHoverImage(true);
+  const mouseMove = useCallback(
+    (e: MouseEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      const container = e.currentTarget;
+      const containerRect = container.getBoundingClientRect();
+      let x = e.clientX - containerRect.left - lensWidth / 2;
+      let y = e.clientY - containerRect.top - lensHeight / 2;
 
-  const mouseOutImage = () => setIsHoverImage(false);
+      const minX = 0;
+      const minY = 0;
+      const maxX = containerRect.width - lensWidth;
+      const maxY = containerRect.height - lensHeight;
 
-  const mouseMoveImage = (e: MouseEvent<HTMLImageElement>) => {
-    e.preventDefault();
-    setIsHoverImage(true);
-    const image = e.target as HTMLImageElement;
-    const { top, left } = image.getBoundingClientRect();
+      if (x <= minX) {
+        x = minX;
+      } else if (x >= maxX) {
+        x = maxX;
+      }
 
-    let x = e.pageX - left - window.scrollX - lens.width / 2;
-    let y = e.pageY - top - window.scrollY - lens.height / 2;
+      if (y <= minY) {
+        y = minY;
+      } else if (y >= maxY) {
+        y = maxY;
+      }
 
-    if (x > image.offsetWidth - lens.width) {
-      x = image.offsetWidth - lens.width;
-    }
-    if (x < 0) {
-      x = 0;
-    }
-    if (y > image.offsetHeight - lens.height) {
-      y = image.offsetHeight - lens.height;
-    }
-    if (y < 0) {
-      y = 0;
-    }
+      const fx = backgroundZoomWidth / lensWidth;
+      const fy = backgroundZoomHeight / lensHeight;
 
-    setLens({
-      ...lens,
-      x,
-      y,
-    });
+      setLens({ x, y });
+      setBackgroundRoom({
+        width: containerRect.width * fx,
+        height: containerRect.height * fy,
+        x: -x * fx,
+        y: -y * fy,
+      });
+    },
+    [lensHeight, lensWidth, backgroundZoomHeight, backgroundZoomWidth]
+  );
 
-    const cx = image.offsetWidth / lens.width;
-    const cy = image.offsetHeight / lens.height;
+  const mouseOver = useCallback(() => setIsHoverImage(true), []);
 
-    setBackgroundZoom({
-      x: x * cx,
-      y: y * cy,
-      width: image.width * cx,
-      height: image.height * cy,
-    });
-  };
+  const mouseLeave = useCallback(() => setIsHoverImage(false), []);
 
   return {
-    isHoverImage,
-    backgroundZoom,
     lens,
-    mouseOverImage,
-    mouseOutImage,
-    mouseMoveImage,
+    backgroundZoom,
+    mouseMove,
+    mouseOver,
+    mouseLeave,
+    isHoverImage,
   };
 };
 

@@ -15,11 +15,6 @@ interface Rating {
   comment: string;
 }
 
-interface Category {
-  id: number;
-  title: string;
-}
-
 export interface ProductState {
   id: number;
   name: string;
@@ -36,7 +31,6 @@ export interface ProductState {
   currency: string;
   images: Images[];
   ratings: Rating[];
-  categories?: Category[];
   category: string;
   ratingCount: number;
   desc: string;

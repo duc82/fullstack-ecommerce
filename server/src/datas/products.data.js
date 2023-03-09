@@ -17,7 +17,7 @@ const products = [
       `${ORIGIN_API}/images/ac-100-b.webp`,
       `${ORIGIN_API}/images/ac-100.webp`,
     ],
-    categories: ["Các loại nồi", "Nồi chiên không dầu"],
+    category: "Nồi chiên không dầu",
     desc: "Magic Eco AC-100: Nồi chiên không khí cho phép bạn thưởng thức đồ chiên không dầu. Bạn yêu thích đồ chiên rán nhưng lại lo lắng cho sức khỏe của mình? Bạn muốn nấu những bữa ăn ngon mà không cần sử dụng dầu hay tạo khói? Sau đó, bạn cần Magic Eco AC-100, nồi chiên không khí sử dụng công nghệ Rapid Air để chiên thực phẩm bằng không khí nóng thay vì dầu. Với Magic Eco AC-100, bạn có thể giảm đến 80% chất béo trong thực phẩm và thưởng thức các món ăn giòn, ngon ngọt mà không cảm thấy ngán. Magic Eco AC-100 có dung tích lớn 4.5 lít, bảng điều khiển màn hình cảm ứng, lòng nồi inox chống dính, nhiều chế độ nấu. Nó cũng có một bộ lọc làm giảm mùi và khói, giúp dễ dàng vệ sinh và bảo trì. Magic Eco AC-100 là sự lựa chọn hoàn hảo cho những ai muốn ăn uống lành mạnh hơn, tiết kiệm thời gian và chi phí nấu nướng. Đặt hàng của bạn ngày hôm nay và khám phá sự kỳ diệu của chiên không khí!",
   },
   {
@@ -32,7 +32,7 @@ const products = [
       `${ORIGIN_API}/images/ac-110-1.webp`,
       `${ORIGIN_API}/images/ac-110-3.webp`,
     ],
-    categories: ["Các loại nồi", "Nồi chiên không dầu"],
+    category: "Nồi chiên không dầu",
     desc: `Nồi chiên không dầu Magic Eco AC-110 - Chiên nướng an toàn và tiện lợi. 
     Giảm 80% lượng dầu mỡ
     Công nghệ đốt nóng Rapid Air
@@ -56,7 +56,7 @@ const products = [
       `${ORIGIN_API}/images/a-83t-c.webp`,
       `${ORIGIN_API}/images/a-83t-a.webp`,
     ],
-    categories: ["Các loại nồi", "Nồi chiên không dầu"],
+    category: "Nồi chiên không dầu",
     desc: `Magic A-83: Nồi chiên không khí nấu nhanh hơn và tốt cho sức khỏe hơn bao giờ hết. Nếu muốn thưởng thức đồ chiên rán không dầu mỡ, không khói hay rắc rối, bạn cần đến Magic A-83, nồi chiên không khí sử dụng công nghệ Rapid Air để nấu chín thực phẩm bằng không khí nóng thay vì dầu. Với Magic A-83, bạn có thể giảm tới 90% lượng chất béo trong thực phẩm và nấu nhanh hơn bao giờ hết với nhiệt độ và công suất cao. Magic A-83 có dung tích lớn 6 lít, kiểu dáng đẹp phù hợp với mọi không gian, lòng nồi inox chống dính, nhiều chế độ nấu. Nó cũng có một bộ lọc làm giảm mùi và khói, giúp dễ dàng vệ sinh và bảo trì. Magic A-83 là sự lựa chọn tối ưu cho những ai muốn tiết kiệm thời gian và tiền bạc cho việc nấu nướng đồng thời ăn uống lành mạnh và ngon miệng hơn. Đặt hàng của bạn ngay hôm nay và trải nghiệm sự khác biệt của chiên không khí!`,
   },
   {
@@ -72,7 +72,7 @@ const products = [
       `${ORIGIN_API}/images/i-67-b.webp`,
       `${ORIGIN_API}/images/i-67.webp`,
     ],
-    categories: ["Các loại nồi", "Nồi chiên không dầu"],
+    category: "Nồi chiên không dầu",
     desc: `Iruka I-67: Nồi chiên không khí nấu nhanh hơn và tốt cho sức khỏe hơn bao giờ hết. Nếu muốn thưởng thức đồ chiên rán không dầu mỡ, không khói hay rắc rối, bạn cần Iruka I-67, nồi chiên không khí sử dụng công nghệ Rapid Air để nấu chín thực phẩm bằng không khí nóng thay vì dầu. Với Iruka I-67, bạn có thể giảm tới 90% lượng chất béo trong thực phẩm và nấu nhanh hơn bao giờ hết với nhiệt độ và công suất cao. Iruka I-67 có dung tích lớn 6 lít, kiểu dáng đẹp mắt phù hợp với mọi không gian, lòng nồi inox chống dính, nhiều chế độ nấu. Nó cũng có một bộ lọc làm giảm mùi và khói, giúp dễ dàng vệ sinh và bảo trì. Iruka I-67 là sự lựa chọn tối ưu cho những ai muốn tiết kiệm thời gian và tiền bạc cho việc nấu nướng đồng thời ăn uống lành mạnh và ngon miệng hơn. Đặt hàng của bạn ngay hôm nay và trải nghiệm sự khác biệt của chiên không khí!`,
   },
 ];

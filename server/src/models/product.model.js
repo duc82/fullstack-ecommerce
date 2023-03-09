@@ -2,7 +2,6 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../configs/db.config");
 const toLowerCaseNonAccentVietnamese = require("../utils/nonAccentVietnamese.util");
 const Rating = require("./rating.model");
-const Category = require("./category.model");
 const Image = require("./image.model");
 require("pg").defaults.parseInt8 = true;
 
@@ -69,6 +68,9 @@ const Product = sequelize.define(
     thumbnail: {
       type: DataTypes.STRING,
     },
+    category: {
+      type: DataTypes.STRING,
+    },
   },
 
   {
@@ -93,15 +95,6 @@ Product.hasMany(Rating, {
 });
 
 Rating.belongsTo(Product, {
-  foreignKey: "productId",
-});
-
-Product.hasMany(Category, {
-  as: "categories",
-  foreignKey: "productId",
-});
-
-Category.belongsTo(Product, {
   foreignKey: "productId",
 });
 

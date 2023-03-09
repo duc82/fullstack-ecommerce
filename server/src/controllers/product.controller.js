@@ -3,16 +3,13 @@ const asyncWrapper = require("../middlewares/asyncWrapper.middleware");
 const CustomError = require("../utils/error.util");
 const Product = require("../models/product.model");
 const Image = require("../models/image.model");
-const Category = require("../models/category.model");
 const Rating = require("../models/rating.model");
 
 const productController = {
   getProduct: asyncWrapper(async (req, res) => {
     const { category } = req.params;
     const { page, limit, sort, cost, brand, avgRating } = req.query;
-
     const obj = {
-      where: {},
       attributes: [
         "id",
         "name",
@@ -25,13 +22,7 @@ const productController = {
         "status",
         "desc",
         "sold",
-        [
-          Sequelize.literal(
-            `(SELECT title FROM "Categories" WHERE "Categories"."title" = '${category}' AND "Categories"."productId" = "Product"."id")`
-          ),
-          "category",
-        ],
-
+        "category",
         [
           Sequelize.literal(
             `(SELECT COUNT(id) FROM "Ratings" WHERE "Ratings"."productId" = "Product"."id")`
@@ -49,17 +40,22 @@ const productController = {
           as: "ratings",
           attributes: [],
         },
-        {
-          model: Category,
-          as: "categories",
-          attributes: [],
-        },
       ],
       order: [["id", "asc"]],
       limit: 10,
       offset: 0,
       distinct: true,
     };
+
+    if (category !== "Tất cả sản phẩm") {
+      obj.where = { ...obj.where, category };
+    } else if (category === "Các loại nồi") {
+      const categories = category.split(" ");
+      obj.where = {
+        ...obj.where,
+        category: { [Op.iLike]: `%${categories[2]}%` },
+      };
+    }
 
     if (limit) {
       obj.limit = Number(limit);
@@ -89,6 +85,8 @@ const productController = {
       };
     }
 
+    console.log(obj);
+
     const { count: countProduct, rows } = await Product.findAndCountAll(obj);
 
     if (rows.length === 0) {
@@ -113,6 +111,16 @@ const productController = {
     const product = await Product.findOne({
       where: {
         slug,
+      },
+      attributes: {
+        include: [
+          [
+            Sequelize.literal(
+              `(SELECT COUNT(id) FROM "Ratings" WHERE "Ratings"."productId" = "Product"."id")`
+            ),
+            "ratingCount",
+          ],
+        ],
       },
       include: {
         all: true,
@@ -144,7 +152,7 @@ const productController = {
       price,
       thumnail,
       images,
-      categories,
+      category,
     } = req.body;
 
     if (
@@ -156,7 +164,8 @@ const productController = {
         currency &&
         stock &&
         discount &&
-        price
+        price &&
+        category
       )
     ) {
       throw new CustomError({
@@ -176,24 +185,18 @@ const productController = {
       discount,
       price,
       thumnail,
+      category,
     });
 
     const image = images.map((img) => {
       return { src: img, alt: product.name, productId: product.id };
     });
 
-    const category = categories.map((category) => {
-      return { category: category, productId: product.id };
-    });
-
     const newImage = await Image.bulkCreate(image);
-
-    const newCategory = await Category.bulkCreate(category);
 
     res.status(200).json({
       ...product.get({ plain: true }),
       images: newImage.map((img) => img.get({ plain: true })),
-      categories: newCategory.map((category) => category.get({ plain: true })),
     });
   }),
 
@@ -231,12 +234,6 @@ const productController = {
     }
 
     await Image.destroy({
-      where: {
-        productId: id,
-      },
-    });
-
-    await Tag.destroy({
       where: {
         productId: id,
       },
