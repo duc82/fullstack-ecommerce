@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useMemo, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import Breadcrumb from "../components/Breadcrumb/Breadcrumb";
 import Container from "../components/Container/Container";
 import PageTitle from "../components/PageTitle/PageTitle";
@@ -52,6 +52,9 @@ const Product = ({ title }: { title: string }) => {
   const [isOpenFilterMobile, setIsOpenFilterMobile] = useState(false);
   const { isLoading, datas, error } = useAppSelector((state) => state.product);
   const dispatch = useAppDispatch();
+  const [searchParams] = useSearchParams();
+
+  const costQuery = searchParams.get("cost");
 
   const handleClickFilterMobile = () => {
     setIsOpenFilterMobile(!isOpenFilterMobile);

@@ -36,7 +36,7 @@ const CheckboxGroup = (checkbox: CheckboxGroupProps) => {
     if (!listValue) {
       setSearchParams();
     } else {
-      setSearchParams({ price: listValue, ...requiredSearch() });
+      setSearchParams({ cost: listValue, ...requiredSearch() });
     }
   };
 

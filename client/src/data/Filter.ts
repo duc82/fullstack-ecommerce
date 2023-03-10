@@ -5,52 +5,52 @@ const prices = {
     {
       checked: false,
       name: "200K - 500K",
-      value: "200K-500K",
+      value: "[200000-5000000]",
     },
     {
       checked: false,
       name: "500K - 1 triệu",
-      value: "500K-1trieu",
+      value: "[500000-1000000]",
     },
     {
       checked: false,
       name: "1 triệu - 1,5 triệu",
-      value: "1trieu-1,5trieu",
+      value: "[1000000,1500000]",
     },
     {
       checked: false,
       name: "1,5 triệu - 2 triệu",
-      value: "1,5trieu-2trieu",
+      value: "[1500000,2000000]",
     },
     {
       checked: false,
       name: "2 triệu - 3 triệu",
-      value: "2trieu-3trieu",
+      value: "[2000000,3000000]",
     },
     {
       checked: false,
       name: "3 triệu - 5 triệu",
-      value: "3trieu-5trieu",
+      value: "[3000000,5000000]",
     },
     {
       checked: false,
       name: "5 triệu - 8 triệu",
-      value: "5trieu-8trieu",
+      value: "[5000000,8000000]",
     },
     {
       checked: false,
       name: "8 triệu - 10 triệu",
-      value: "8trieu-10trieu",
+      value: "[8000000,10000000]",
     },
     {
       checked: false,
       name: "10 triệu - 15 triệu",
-      value: "10trieu-15trieu",
+      value: "[10000000,15000000]",
     },
     {
       checked: false,
       name: "20 triệu - 25 triệu",
-      value: "20trieu-25trieu",
+      value: "[20000000,25000000]",
     },
     {
       checked: false,

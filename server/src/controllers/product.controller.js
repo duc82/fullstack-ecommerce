@@ -10,6 +10,20 @@ const productController = {
     const { category } = req.params;
     const { page, limit, sort, cost, brand, avgRating } = req.query;
     const obj = {
+      where: {
+        [Op.or]: [
+          {
+            cost: {
+              [Op.between]: [1000000, 2000000],
+            },
+          },
+          {
+            cost: {
+              [Op.between]: [2000000, 2500000],
+            },
+          },
+        ],
+      },
       attributes: [
         "id",
         "name",
@@ -67,12 +81,6 @@ const productController = {
     if (sort) {
       const newSort = sort.split("-");
       obj.order = [[newSort[0], newSort[1]]];
-    }
-
-    if (cost) {
-      obj.where.cost = {
-        [Op.between]: JSON.parse(cost),
-      };
     }
 
     if (brand) {

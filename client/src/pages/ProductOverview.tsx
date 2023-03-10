@@ -423,7 +423,7 @@ const ProductOverview = () => {
                         to="/"
                         className="text-zinc-600 hover:text-red-700 transition ease-in-out duration-150"
                       >
-                        {product.category},{" "}
+                        {product.category}
                       </Link>
                     </div>
                     <div className="flex items-center">

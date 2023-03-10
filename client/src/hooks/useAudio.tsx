@@ -1,61 +1,43 @@
-import { useMemo, useEffect, useState } from "react";
+import { useMemo, useEffect, useState, useCallback } from "react";
 
-const useAudio = (url: string) => {
-  const audio = useMemo(() => new Audio(url), [url]);
+const useAudio = (urls: string[]) => {
+  const [activeIndexSong, setActiveIndexSong] = useState(0);
+  const audios = useMemo(() => urls.map((url) => new Audio(url)), [urls]);
   const [playing, setPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
 
-  const playAudio = () => {
+  const playAudio = useCallback(() => {
     setPlaying(true);
-  };
+  }, []);
 
-  const pauseAudio = () => {
+  const pauseAudio = useCallback(() => {
     setPlaying(false);
-  };
+  }, []);
+
+  const nextSong = useCallback(() => {
+    if (activeIndexSong + 1 >= urls.length) {
+      return;
+    }
+    setActiveIndexSong((prev) => prev + 1);
+  }, [activeIndexSong, urls]);
+
+  const backSong = useCallback(() => {
+    if (activeIndexSong - 1 < 0) {
+      return;
+    }
+    setActiveIndexSong((prev) => prev - 1);
+  }, [activeIndexSong]);
 
   useEffect(() => {
-    playing ? audio.play() : audio.pause();
-  }, [playing, audio]);
+    console.log(audios);
+    if (playing) {
+      audios[activeIndexSong].play();
+    } else {
+      audios[activeIndexSong].pause();
+    }
+  }, [playing, activeIndexSong, audios]);
 
-  useEffect(() => {
-    const handleAudioEnded = () => {
-      setPlaying(false);
-    };
-
-    audio.addEventListener("ended", handleAudioEnded);
-
-    return () => {
-      audio.removeEventListener("ended", handleAudioEnded);
-    };
-  }, [audio]);
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "+") {
-        const newVolume = audio.volume + 0.05;
-        if (newVolume > 1) {
-          return;
-        }
-        setVolume(parseFloat(newVolume.toFixed(2)));
-      }
-      if (e.key === "-") {
-        const newVolume = audio.volume - 0.05;
-        if (newVolume < 0) {
-          return;
-        }
-        setVolume(parseFloat(newVolume.toFixed(2)));
-      }
-    };
-    audio.volume = volume;
-
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [audio, volume]);
-
-  return { playing, playAudio, pauseAudio, volume };
+  return { playing, playAudio, pauseAudio, nextSong, backSong, volume };
 };
 
 export default useAudio;

@@ -1,7 +1,8 @@
 import React, { memo, useMemo } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { Close } from "../../icons/icons";
-import { Carts } from "../../redux/reducers/cartSlice";
+import { Carts, deleteItemCart } from "../../redux/reducers/cartSlice";
 import formatVnd from "../../utils/formatVnd";
 
 interface CartProps {
@@ -13,6 +14,7 @@ const totalCostCartReduce = (carts: Carts[]) =>
 
 const Cart = ({ carts }: CartProps) => {
   const totalCostCartItems = useMemo(() => totalCostCartReduce(carts), [carts]);
+  const dispatch = useDispatch();
 
   return (
     <div className="absolute right-0 top-10 z-[8282] pt-8 pb-1 hidden lg:hover:block lg:peer-hover:block">
@@ -42,7 +44,10 @@ const Cart = ({ carts }: CartProps) => {
                       x {cart.quantity}
                     </span>
                   </div>
-                  <button className="absolute top-0 -right-2.5 h-5 w-5 rounded-full text-black hover:bg-red-700 hover:text-white transition duration-150 ease-in-out">
+                  <button
+                    onClick={() => dispatch(deleteItemCart(cart.id))}
+                    className="absolute top-0 -right-2.5 h-5 w-5 rounded-full text-black hover:bg-red-700 hover:text-white transition duration-150 ease-in-out"
+                  >
                     <Close className="w-2.5 h-2.5 mx-auto" />
                   </button>
                 </div>
