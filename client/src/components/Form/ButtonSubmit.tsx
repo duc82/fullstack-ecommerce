@@ -1,8 +1,8 @@
 import React, { ButtonHTMLAttributes } from "react";
 
-interface ButtonSubmitProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+type ButtonSubmitProps = {
   isLoading: boolean;
-}
+} & ButtonHTMLAttributes<HTMLButtonElement>
 
 const ButtonSubmit = ({ isLoading, ...otherAttributes }: ButtonSubmitProps) => {
   return (

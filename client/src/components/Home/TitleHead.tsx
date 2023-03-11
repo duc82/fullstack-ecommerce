@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import { Link } from "react-router-dom";
 
-interface TitleHeadProps {
+type TitleHeadProps = {
   value: string;
   url: string;
 }

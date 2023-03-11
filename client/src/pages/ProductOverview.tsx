@@ -12,8 +12,8 @@ import formatVnd from "../utils/formatVnd";
 import useQuantity from "../hooks/useQuantity";
 import Overlay from "../components/Overlay/Overlay";
 import { motion } from "framer-motion";
-import ProductLists from "../components/Home/ProductLists";
-import Review from "../components/Review/Review";
+import ProductLists from "../components/Product/ProductLists";
+import Review from "../components/Rating/Review";
 import useStyleBody from "../hooks/useStyleBody";
 import useNavigationSwiper from "../hooks/useNavigationSwiper";
 import { useAppSelector } from "../hooks/redux";
@@ -169,9 +169,8 @@ const ProductOverview = () => {
                     key={i}
                     onMouseOver={() => handleMouseOverStar(i)}
                     onClick={() => handleClickStar(i)}
-                    className={`w-3.5 h-3.5 ${
-                      hover ? "text-red-700" : "text-zinc-300"
-                    }`}
+                    className={`w-3.5 h-3.5 ${hover ? "text-red-700" : "text-zinc-300"
+                      }`}
                   />
                 ))}
               </div>
@@ -237,7 +236,7 @@ const ProductOverview = () => {
                         onMouseOver={mouseOver}
                         onMouseLeave={mouseLeave}
                       >
-                        {/* Thấu kính (Lens) */}
+                        {/* Lens */}
                         <div
                           style={{
                             top: `${lens.y}px`,
@@ -256,7 +255,7 @@ const ProductOverview = () => {
                         {/* Background Image Zoom */}
                         <div
                           id="zoom-img"
-                          className="absolute top-0 z-50 h-full w-full border-4 border-zinc-400 bg-no-repeat"
+                          className="absolute top-0 z-50 h-full w-full border-4 border-zinc-400 bg-no-repeat bg-center"
                           style={{
                             backgroundImage: `url('${product.images[activeIndexImg].src}')`,
                             backgroundSize: `${backgroundZoom.width}px ${backgroundZoom.height}px`,
@@ -303,22 +302,20 @@ const ProductOverview = () => {
                         <button
                           type="button"
                           ref={updatePrevEl}
-                          className={`absolute top-1/2 -translate-y-1/2 left-0 w-6 h-6 rounded-full bg-red-700 text-white ${
-                            statusSlide === "start"
-                              ? "opacity-50 cursor-default"
-                              : "cursor-pointer"
-                          }`}
+                          className={`absolute top-1/2 -translate-y-1/2 left-0 w-6 h-6 rounded-full bg-red-700 text-white ${statusSlide === "start"
+                            ? "opacity-50 cursor-default"
+                            : "cursor-pointer"
+                            }`}
                         >
                           <ChevronLeft className="w-3 h-3 mx-auto" />
                         </button>
                         <button
                           type="button"
                           ref={updateNextEl}
-                          className={`absolute top-1/2 -translate-y-1/2 right-0 w-6 h-6 rounded-full bg-red-700 text-white ${
-                            statusSlide === "end"
-                              ? "opacity-50 cursor-default"
-                              : "cursor-pointer"
-                          }`}
+                          className={`absolute top-1/2 -translate-y-1/2 right-0 w-6 h-6 rounded-full bg-red-700 text-white ${statusSlide === "end"
+                            ? "opacity-50 cursor-default"
+                            : "cursor-pointer"
+                            }`}
                         >
                           <ChevronRight className="w-3 h-3 mx-auto" />
                         </button>

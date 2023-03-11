@@ -1,8 +1,7 @@
 import React, { memo } from "react";
 import { motion } from "framer-motion";
 
-interface OverlayProps {
-  children: React.ReactNode;
+type OverlayProps = {
   active: boolean;
   onClick: () => void;
   duration: number;

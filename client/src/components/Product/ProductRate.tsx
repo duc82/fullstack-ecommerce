@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import { Star, StarFull, StarHalf } from "../../icons/icons";
 import formatRate from "../../utils/formatRate";
 
-interface ProductRateProps {
+type ProductRateProps = {
   rate: number;
   className?: string;
 }
@@ -17,16 +17,14 @@ const ProductRate = ({ rate, className }: ProductRateProps) => {
           {[...Array(parseInt(arrRate[0]))].map((_value, i) => (
             <StarFull
               key={i}
-              className={`text-yellow-500 ${
-                className ? className : "h-2.5 w-2.5"
-              }`}
+              className={`text-yellow-500 ${className ? className : "h-2.5 w-2.5"
+                }`}
             />
           ))}
           {parseInt(arrRate[1]) > 4 && (
             <StarHalf
-              className={`text-yellow-500 ${
-                className ? className : "h-2.5 w-2.5"
-              }`}
+              className={`text-yellow-500 ${className ? className : "h-2.5 w-2.5"
+                }`}
             />
           )}
           {[
@@ -36,9 +34,8 @@ const ProductRate = ({ rate, className }: ProductRateProps) => {
           ].map((_value, i) => (
             <Star
               key={i}
-              className={`text-yellow-500 ${
-                className ? className : "h-2.5 w-2.5"
-              }`}
+              className={`text-yellow-500 ${className ? className : "h-2.5 w-2.5"
+                }`}
             />
           ))}
         </div>

@@ -2,7 +2,7 @@ import React, { useState, createContext, useContext, useCallback } from "react";
 import { ProductState } from "../redux/reducers/productSlice";
 import { ChildrenProps } from "../types/types";
 
-interface AppContextType {
+type AppContextType = {
   isOpenNavMobile: boolean;
   closeNavMobile: () => void;
   isActiveProductQuickview: boolean;
@@ -20,7 +20,7 @@ interface AppContextType {
 
 const AppContext = createContext({} as AppContextType);
 
-const AppProvider = ({ children }: Required<ChildrenProps>) => {
+const AppProvider = ({ children }: ChildrenProps) => {
   const [isOpenNavMobile, setIsOpenNavMobile] = useState(false);
   const [isOpenNavDesktopLeft, setIsOpenNavDesktopLeft] = useState(false);
   const [isActiveProductQuickview, setIsActiveProductQuickview] =

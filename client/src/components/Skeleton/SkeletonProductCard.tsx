@@ -1,5 +1,6 @@
 import React from "react";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import randomInt from "../../utils/randomInt";
 
 const Loading = () => {
   return (
@@ -15,8 +16,7 @@ const Loading = () => {
   );
 };
 
-const randomInt = (min: number, max: number) =>
-  Math.floor(Math.random() * (max - min) + min);
+
 
 const SkeletonProductCard = () => {
   return (

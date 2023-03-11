@@ -1,6 +1,6 @@
 import React, { memo } from "react";
-import TitleHead from "./TitleHead";
-import ProductCard from "../Product/ProductCard";
+import TitleHead from "../Home/TitleHead";
+import ProductCard from "./ProductCard";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper";
 import "swiper/css";
@@ -8,7 +8,7 @@ import useSwiperSlide from "../../hooks/useSwiperSlide";
 import { ProductState } from "../../redux/reducers/productSlice";
 import SkeletonProductCard from "../Skeleton/SkeletonProductCard";
 
-interface ProductListsProps {
+type ProductListsProps = {
   titleHeadValue: string;
   titleHeadUrl: string;
   products: ProductState[];
@@ -50,15 +50,15 @@ const ProductLists = ({
       >
         {products
           ? products.map((product) => (
-              <SwiperSlide key={product.id}>
-                <ProductCard product={product} isCarousel={true} />
-              </SwiperSlide>
-            ))
+            <SwiperSlide key={product.id}>
+              <ProductCard product={product} isCarousel={true} />
+            </SwiperSlide>
+          ))
           : [...Array(5)].map((_, i) => (
-              <SwiperSlide key={i}>
-                <SkeletonProductCard />
-              </SwiperSlide>
-            ))}
+            <SwiperSlide key={i}>
+              <SkeletonProductCard />
+            </SwiperSlide>
+          ))}
       </Swiper>
     </section>
   );

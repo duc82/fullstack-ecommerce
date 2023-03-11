@@ -1,21 +1,21 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface Images {
+type Images = {
   id: number;
   src: string;
   alt: string;
-}
+};
 
-interface Rating {
+type Ratings = {
   id: number;
   rating: number;
   name: string;
   email: string;
   title: string;
   comment: string;
-}
+};
 
-export interface ProductState {
+export type ProductState = {
   id: number;
   name: string;
   slug: string;
@@ -30,15 +30,15 @@ export interface ProductState {
   avgRating: number;
   currency: string;
   images: Images[];
-  ratings: Rating[];
+  ratings: Ratings[];
   category: string;
   ratingCount: number;
   desc: string;
   createdAt: Date;
   updatedAt: Date;
-}
+};
 
-interface InitialProduct {
+type InitialProduct = {
   datas: {
     products: ProductState[];
     product: ProductState | null;
@@ -49,7 +49,7 @@ interface InitialProduct {
   };
   isLoading: boolean;
   error: string;
-}
+};
 
 export const initialProduct: InitialProduct = {
   datas: {

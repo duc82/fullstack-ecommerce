@@ -3,7 +3,7 @@ import React, { memo } from "react";
 import MenuItems from "./MenuItems";
 import { motion } from "framer-motion";
 
-interface DropdownProps {
+type DropdownProps = {
   submenus: any[];
   dropdown: boolean;
   paddingLeft: number;

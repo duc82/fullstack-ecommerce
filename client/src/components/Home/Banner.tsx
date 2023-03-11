@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { bannerVariants } from "../../data/variants";
 
-interface Datas {
+type Datas = {
   href: string;
   img: {
     src: string;
@@ -11,11 +11,11 @@ interface Datas {
   };
 }
 
-interface BannerProps {
+type BannerProps = {
   datas: Datas[];
 }
 
-interface GridColumn {
+type GridColumn = {
   [key: string]: string;
 }
 
@@ -28,9 +28,8 @@ for (let i = 1; i <= 12; i++) {
 const Banner = ({ datas }: BannerProps) => {
   return (
     <section
-      className={`mb-7 grid gap-x-8 gap-y-4 ${
-        gridColumVariants[datas.length > 12 ? 12 : datas.length]
-      } grid-cols`}
+      className={`mb-7 grid gap-x-8 gap-y-4 ${gridColumVariants[datas.length > 12 ? 12 : datas.length]
+        } grid-cols`}
     >
       {datas.map((data, i) => (
         <Link key={i} to={data.href} className="relative block">

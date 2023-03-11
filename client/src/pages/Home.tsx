@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Banner from "../components/Home/Banner";
 import Hero from "../components/Home/Hero";
-import ProductLists from "../components/Home/ProductLists";
+import ProductLists from "../components/Product/ProductLists";
 import bannerFull from "../assets/banner_full_width.webp";
 import Brand from "../components/Home/Brand";
 import BlogLists from "../components/Home/BlogLists";
@@ -13,53 +13,55 @@ import errorHandling from "../utils/errorHandling";
 
 export const productTest: ProductState[] = [];
 
-// for (let i = 0; i < 10; i++) {
-//   productTest.push({
-//     id: i,
-//     name: `Lo vi song ${i}`,
-//     slug: "lo-vi-song",
-//     cost: 600000,
-//     price: 1690000,
-//     discount: 50,
-//     bonus: "",
-//     stock: 50,
-//     brand: "Samsung",
-//     model: "LVS",
-//     currency: "VND",
-//     images: [
-//       {
-//         id: 1,
-//         src: `https://picsum.photos/1000?random=${i}`,
-//         alt: "Random image",
-//       },
-//       {
-//         id: 2,
-//         src: `https://picsum.photos/1000?random=${i + 1}`,
-//         alt: "Random image",
-//       },
-//       {
-//         id: 3,
-//         src: `https://picsum.photos/1000?random=${i + 2}`,
-//         alt: "Random image",
-//       },
-//     ],
-//     avgRating: 2.5,
-//     status: "Còn hàng",
-//     ratings: [
-//       {
-//         id: 1,
-//         rating: 2.6,
-//         name: "Duc Dang",
-//         email: "example@gmail.com",
-//         title: "San pham rat tot",
-//         comment: "abcxyz",
-//       },
-//     ],
-//     category: "Noi chien khong dau",
-//     ratingCount: 3,
-//     desc: "asdfsaf",
-//   });
-// }
+for (let i = 0; i < 10; i++) {
+  productTest.push({
+    id: i,
+    name: `Lo vi song ${i}`,
+    slug: "lo-vi-song",
+    cost: 600000,
+    price: 1690000,
+    discount: 50,
+    bonus: "",
+    stock: 50,
+    brand: "Samsung",
+    model: "LVS",
+    currency: "VND",
+    images: [
+      {
+        id: 1,
+        src: `https://picsum.photos/1000?random=${i}`,
+        alt: "Random image",
+      },
+      {
+        id: 2,
+        src: `https://picsum.photos/1000?random=${i + 1}`,
+        alt: "Random image",
+      },
+      {
+        id: 3,
+        src: `https://picsum.photos/1000?random=${i + 2}`,
+        alt: "Random image",
+      },
+    ],
+    avgRating: 2.5,
+    status: "Còn hàng",
+    ratings: [
+      {
+        id: 1,
+        rating: 2.6,
+        name: "Duc Dang",
+        email: "example@gmail.com",
+        title: "San pham rat tot",
+        comment: "abcxyz",
+      },
+    ],
+    ratingCount: 1,
+    category: "Noi chien khong dau",
+    desc: "asdfsaf",
+    createdAt: new Date(Date.now()),
+    updatedAt: new Date(Date.now())
+  });
+}
 
 const banner1 = [
   {
@@ -115,6 +117,9 @@ const Home = () => {
       const errors = res.map((r) =>
         r.status === "rejected" ? errorHandling(r.reason).message : undefined
       );
+
+      console.log(errors)
+
     });
   }, []);
 

@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import { motion } from "framer-motion";
 import MenuItems from "./MenuItems";
 
-interface Props {
+type DropdownProps = {
   submenus: any[];
   toggle?: () => void;
 }
@@ -23,7 +23,7 @@ const variants = {
   },
 };
 
-const Dropdown = ({ submenus, toggle }: Props) => {
+const Dropdown = ({ submenus, toggle }: DropdownProps) => {
   return (
     <motion.ul
       variants={variants}

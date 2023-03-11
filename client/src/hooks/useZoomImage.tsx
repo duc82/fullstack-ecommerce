@@ -31,6 +31,8 @@ const useZoomImage = ({
   const mouseMove = useCallback(
     (e: MouseEvent<HTMLDivElement>) => {
       e.preventDefault();
+
+
       const container = e.currentTarget;
       const containerRect = container.getBoundingClientRect();
       let x = e.clientX - containerRect.left - lensWidth / 2;
@@ -53,16 +55,23 @@ const useZoomImage = ({
         y = maxY;
       }
 
+
       const fx = backgroundZoomWidth / lensWidth;
       const fy = backgroundZoomHeight / lensHeight;
 
+      const positionX = fx * x;
+      const positionY = fy * y;
+
       setLens({ x, y });
+
       setBackgroundRoom({
         width: containerRect.width * fx,
         height: containerRect.height * fy,
-        x: -x * fx,
-        y: -y * fy,
+        x: -positionX,
+        y: -positionY,
       });
+
+
     },
     [lensHeight, lensWidth, backgroundZoomHeight, backgroundZoomWidth]
   );

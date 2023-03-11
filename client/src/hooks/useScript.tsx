@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-interface Options {
+type Options = {
   type?: string;
   defer?: boolean;
   nonce?: string;

@@ -55,27 +55,27 @@ const prices = {
     {
       checked: false,
       name: "25 triệu - 30 triệu",
-      value: "25trieu-30trieu",
+      value: "[25000000,30000000]",
     },
     {
       checked: false,
       name: "30 triệu - 40 triệu",
-      value: "30trieu-40trieu",
+      value: "[30000000,40000000]",
     },
     {
       checked: false,
       name: "40 triệu - 50 triệu",
-      value: "40trieu-50trieu",
+      value: "[40000000,50000000]",
     },
     {
       checked: false,
       name: "50 triệu - 100 triệu",
-      value: "50trieu-100trieu",
+      value: "[50000000,100000000]",
     },
     {
       checked: false,
       name: "100 triệu - 200 triệu",
-      value: "100trieu-200trieu",
+      value: "[100000000,200000000]",
     },
   ],
 };

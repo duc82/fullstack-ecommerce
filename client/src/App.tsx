@@ -29,7 +29,6 @@ import { useDispatch } from "react-redux";
 import { resetAuth } from "./redux/reducers/authSlice";
 import { verifyRecovery } from "./services/auth";
 import Container from "./components/Container/Container";
-import Test from "./pages/Test";
 
 const ProductSubmenus = Menus[1].submenu;
 
@@ -45,7 +44,7 @@ const RequireAuth = ({
   return <>{children}</>;
 };
 
-const CleanState = () => {
+const CleanAuth = () => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
 
@@ -110,7 +109,6 @@ const App = () => {
           path="tat-ca-san-pham"
           element={<Product title="Tất cả sản phẩm" />}
         />
-        <Route path="test" element={<Test />} />
         <Route
           path="tai-khoan"
           element={
@@ -120,7 +118,7 @@ const App = () => {
           }
         />
 
-        <Route element={<CleanState />}>
+        <Route element={<CleanAuth />}>
           <Route path="dang-ky" element={<SignUp />} />
           <Route path="dang-nhap" element={<SignIn />} />
           <Route path="quen-mat-khau" element={<ForgotPassword />} />

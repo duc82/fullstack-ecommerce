@@ -1,10 +1,10 @@
 import React, { memo, CSSProperties } from "react";
 import { ChildrenProps } from "../../types/types";
 
-interface ContainerProps extends ChildrenProps {
+type ContainerProps = {
   className?: string;
   style?: CSSProperties;
-}
+} & ChildrenProps
 
 const Container = ({ children, className, style }: ContainerProps) => {
   return (

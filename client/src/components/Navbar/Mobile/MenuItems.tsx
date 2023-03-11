@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Minus, Plus } from "../../../icons/icons";
 import Dropdown from "./Dropdown";
 
-interface MenuItemsProps {
+type MenuItemsProps = {
   url: string;
   value: string;
   submenu: any[];

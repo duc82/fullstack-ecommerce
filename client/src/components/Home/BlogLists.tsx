@@ -5,7 +5,7 @@ import { Autoplay, Pagination } from "swiper";
 import useSwiperSlide from "../../hooks/useSwiperSlide";
 import Blog from "./Blog";
 
-export interface Blogs {
+export type Blogs = {
   img: {
     src: string;
     alt: string;

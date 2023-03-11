@@ -17,15 +17,20 @@ import {
 } from "../redux/reducers/authSlice";
 import axiosJWT from "../utils/axiosJWT";
 
-interface DataSignIn {
+type DataSignIn = {
   email: string;
   password: string;
-}
+};
 
-interface DataSignUp extends DataSignIn {
+type DataSignUp = {
   fullName: string;
   phone: number;
-}
+} & DataSignIn;
+
+type DataRecovery = {
+  token: string | null;
+  email: string | null;
+};
 
 const signUp = async (
   url: string,
@@ -105,14 +110,9 @@ const forgotPassword = async (
   }
 };
 
-interface RecoveryData {
-  token: string | null;
-  email: string | null;
-}
-
 const verifyRecovery = async (
   url: string,
-  data: RecoveryData,
+  data: DataRecovery,
   dispatch: AppDispatch
 ) => {
   try {

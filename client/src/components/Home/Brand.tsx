@@ -1,12 +1,11 @@
 import React, { memo } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper";
-import Container from "../Container/Container";
 import TitleHead from "./TitleHead";
 import { Link } from "react-router-dom";
 import useSwiperSlide from "../../hooks/useSwiperSlide";
 
-interface Brands {
+type Brands = {
   href: string;
   src: string;
   alt: string;

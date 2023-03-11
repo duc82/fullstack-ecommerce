@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export interface Carts {
+export type Carts = {
   id: number;
   name: string;
   slug: string;
   cost: number;
   image: string;
   quantity: number;
-}
+};
 
 const cartSlice = createSlice({
   name: "cart",

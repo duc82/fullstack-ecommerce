@@ -39,11 +39,11 @@ const validateForm = (values: ErrorForm) => {
   }
 };
 
-interface ValueEachField {
+type ValueEachField = {
   value: string;
   value2?: string;
   name: string;
-}
+};
 
 const validateFormEachField = (values: ValueEachField) => {
   const { value, value2, name } = values;

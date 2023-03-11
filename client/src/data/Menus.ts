@@ -21,54 +21,54 @@ export const Menus = [
         url: "/quat-cac-loai",
         value: "Quạt, Máy làm mát",
       },
-      {
-        url: "/may-xay-da-nang",
-        value: "Máy xay đa năng",
-      },
-      {
-        url: "/may-hut-bui",
-        value: "Máy hút bụi",
-      },
-      {
-        url: "/may-pha-ca-phe",
-        value: "Máy pha cà phê",
-      },
-      {
-        url: "/cay-nuoc-nong-lanh",
-        value: "Cây nước nóng lạnh",
-      },
-      {
-        url: "/do-dung-nha-bep",
-        value: "Đồ dùng nhà bếp",
-      },
-      {
-        url: "/cac-loai-bep",
-        value: "Các loại bếp",
-      },
-      {
-        url: "/lo-vi-song",
-        value: "Lò vi sóng",
-      },
-      {
-        url: "/lo-nuong-bep-nuong",
-        value: "Lò nướng, Bếp nướng",
-      },
-      {
-        url: "/may-loc-nuoc",
-        value: "Máy lọc nước",
-      },
-      {
-        url: "/binh-thuy-dien",
-        value: "Bình thủy điện",
-      },
-      {
-        url: "/noi-lau-bep-lau",
-        value: "Nồi lẩu, Bếp lẩu",
-      },
-      {
-        url: "/hop-com-giu-nhiet",
-        value: "Hộp cơm giữ nhiệt",
-      },
+      // {
+      //   url: "/may-xay-da-nang",
+      //   value: "Máy xay đa năng",
+      // },
+      // {
+      //   url: "/may-hut-bui",
+      //   value: "Máy hút bụi",
+      // },
+      // {
+      //   url: "/may-pha-ca-phe",
+      //   value: "Máy pha cà phê",
+      // },
+      // {
+      //   url: "/cay-nuoc-nong-lanh",
+      //   value: "Cây nước nóng lạnh",
+      // },
+      // {
+      //   url: "/do-dung-nha-bep",
+      //   value: "Đồ dùng nhà bếp",
+      // },
+      // {
+      //   url: "/cac-loai-bep",
+      //   value: "Các loại bếp",
+      // },
+      // {
+      //   url: "/lo-vi-song",
+      //   value: "Lò vi sóng",
+      // },
+      // {
+      //   url: "/lo-nuong-bep-nuong",
+      //   value: "Lò nướng, Bếp nướng",
+      // },
+      // {
+      //   url: "/may-loc-nuoc",
+      //   value: "Máy lọc nước",
+      // },
+      // {
+      //   url: "/binh-thuy-dien",
+      //   value: "Bình thủy điện",
+      // },
+      // {
+      //   url: "/noi-lau-bep-lau",
+      //   value: "Nồi lẩu, Bếp lẩu",
+      // },
+      // {
+      //   url: "/hop-com-giu-nhiet",
+      //   value: "Hộp cơm giữ nhiệt",
+      // },
     ],
   },
   {

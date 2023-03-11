@@ -1,4 +1,2 @@
-const formatDate = (date: Date) =>
+export default (date: Date) =>
   new Intl.DateTimeFormat("vi-VN").format(new Date(date));
-
-export default formatDate;

@@ -1,8 +1,7 @@
 import React from "react";
 
-interface Props {}
 
-const Promotion = (props: Props) => {
+const Promotion = () => {
   return <div>Promotion</div>;
 };
 

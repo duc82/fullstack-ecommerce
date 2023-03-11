@@ -5,7 +5,7 @@ import { Close } from "../../icons/icons";
 import { Carts, deleteItemCart } from "../../redux/reducers/cartSlice";
 import formatVnd from "../../utils/formatVnd";
 
-interface CartProps {
+type CartProps = {
   carts: Carts[];
 }
 

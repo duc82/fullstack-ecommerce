@@ -81,11 +81,10 @@ const ProductQuickview = () => {
                     <li className="h-full p-1 mr-2.5">
                       <button
                         onClick={() => setActiveIndexImg(i)}
-                        className={`border h-[75px] flex items-center justify-center ${
-                          i === activeIndexImg
-                            ? "border-red-700"
-                            : "border-zinc-200"
-                        }`}
+                        className={`border h-[75px] flex items-center justify-center ${i === activeIndexImg
+                          ? "border-red-700"
+                          : "border-zinc-200"
+                          }`}
                       >
                         <img src={image.src} alt={image.alt} />
                       </button>
@@ -133,7 +132,7 @@ const ProductQuickview = () => {
                 <button
                   onClick={decreaseQuantity}
                   type="button"
-                  className="font-bold text-zinc-500 h-full text-base absolute top-0 left-0 w-[30px] text-right z-20"
+                  className="font-bold text-zinc-500 h-full text-base absolute top-0 left-0 w-[30px] text-right z-20 transition-colors hover:text-zinc-800"
                 >
                   -
                 </button>
@@ -147,7 +146,7 @@ const ProductQuickview = () => {
                 <button
                   onClick={increaseQuantity}
                   type="button"
-                  className="font-bold text-zinc-500 h-full text-base absolute top-0 right-0 w-[30px] text-left z-20"
+                  className="font-bold text-zinc-500 h-full text-base absolute top-0 right-0 w-[30px] text-left z-20 transition-colors hover:text-zinc-800"
                 >
                   +
                 </button>

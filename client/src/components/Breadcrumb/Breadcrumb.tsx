@@ -5,17 +5,17 @@ import { Link } from "react-router-dom";
 import { AngleRight } from "../../icons/icons";
 import Container from "../Container/Container";
 
-interface Items {
+type BreadcrumbItems = {
   src: string;
   value: string;
 }
 
-interface BreadcrumbItems {
-  items?: Items[];
+type BreadcrumbProps = {
+  items?: BreadcrumbItems[];
   active?: string;
 }
 
-const Breadcrumb = ({ items, active }: BreadcrumbItems) => {
+const Breadcrumb = ({ items, active }: BreadcrumbProps) => {
   return (
     <section className="bg-breadcrumb bg-no-repeat bg-cover bg-left-top block">
       <Container>

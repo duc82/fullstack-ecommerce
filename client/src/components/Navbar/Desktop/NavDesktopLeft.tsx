@@ -3,7 +3,7 @@ import { Menus } from "../../../data/Menus";
 import { motion } from "framer-motion";
 import MenuItems from "./MenuItems";
 
-interface NavDesktopLeftProps {
+type NavDesktopLeftProps = {
   active?: boolean;
 }
 

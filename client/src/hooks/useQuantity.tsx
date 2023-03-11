@@ -1,9 +1,10 @@
 import { useState, ChangeEvent, useCallback } from "react";
 
 type Event = ChangeEvent<HTMLInputElement>;
+type Quantity = number | string;
 
 const useQuantity = (minQuantity = 1, maxQuantity = 999) => {
-  const [quantity, setQuantity] = useState<number | string>(minQuantity);
+  const [quantity, setQuantity] = useState<Quantity>(minQuantity);
 
   const increaseQuantity = useCallback(() => {
     if (quantity <= maxQuantity) {

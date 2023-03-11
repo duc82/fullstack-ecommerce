@@ -1,16 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface DataAuth {
+type DataAuth = {
   accessToken?: string;
   message: string;
-}
+};
 
-interface InitialAuth {
+type InitialAuth = {
   isLoading: boolean;
   data: DataAuth | null;
   error: string;
   isLoggedIn: boolean;
-}
+};
 
 const initialAuth: InitialAuth = {
   isLoading: false,

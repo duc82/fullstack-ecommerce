@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 
-interface AlertProps {
+type AlertProps = {
   value: string;
   onClick?: () => void;
   type?: "success" | "error";
@@ -9,11 +9,10 @@ interface AlertProps {
 const Alert = ({ value, onClick, type = "success" }: AlertProps) => {
   return (
     <div
-      className={`flex p-4 mb-4 rounded-md ${
-        type === "success"
+      className={`flex p-4 mb-4 rounded-md ${type === "success"
           ? "text-green-800 bg-green-50"
           : "text-red-700 bg-red-100"
-      }`}
+        }`}
     >
       <svg
         aria-hidden="true"
@@ -31,11 +30,10 @@ const Alert = ({ value, onClick, type = "success" }: AlertProps) => {
       <div className="ml-3 text-sm font-medium">{value}</div>
       <button
         type="button"
-        className={`ml-auto -mx-1.5 -my-1.5  rounded-md focus:ring-2  p-1.5 inline-flex h-8 w-8 ${
-          type === "success"
+        className={`ml-auto -mx-1.5 -my-1.5  rounded-md focus:ring-2  p-1.5 inline-flex h-8 w-8 ${type === "success"
             ? "bg-green-50 text-green-500 focus:ring-green-400 hover:bg-green-200 "
             : "bg-red-100 text-red-500 focus:ring-red-400 hover:bg-red-200"
-        }`}
+          }`}
         data-dismiss-target="#alert-2"
         onClick={onClick}
       >

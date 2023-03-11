@@ -1,19 +1,19 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface UserState {
+type UserState = {
   id: number;
   fullName: string;
   phone: number;
   email: string;
   createdAt: Date;
   updatedAt: Date;
-}
+};
 
-interface initialUser {
+type initialUser = {
   data: UserState | null;
   isLoading: boolean;
   error: string;
-}
+};
 
 const initialUser: initialUser = {
   data: null,

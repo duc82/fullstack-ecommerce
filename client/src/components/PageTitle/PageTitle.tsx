@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 
-interface PageTitleProps {
+type PageTitleProps = {
   value: string;
 }
 

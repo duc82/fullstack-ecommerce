@@ -1,11 +1,12 @@
 import React, { memo } from "react";
 
-interface AddressShowroom {
+type AddressShowroom = {
   address: string;
   detailedAddress: string;
 }
 
-interface ShowroomProps {
+
+type ShowroomProps = {
   titleShowroom: string;
   addressShowroom: AddressShowroom[];
 }

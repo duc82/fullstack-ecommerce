@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-interface StyleBodyProps {
+type StyleBodyProps = {
   active: boolean;
   className: string;
 }

@@ -3,13 +3,13 @@ import { useSearchParams } from "react-router-dom";
 import requiredSearch from "../../utils/requiredSearch";
 import { DoubleDown, DoubleUp } from "../../icons/icons";
 
-interface Items {
+type Items = {
   checked: boolean;
   name: string;
   value: string;
 }
 
-interface CheckboxGroupProps {
+type CheckboxGroupProps = {
   title: string;
   limit: number;
   items: Items[];
@@ -55,9 +55,8 @@ const CheckboxGroup = (checkbox: CheckboxGroupProps) => {
         {checkbox.items.map((item, i) => (
           <li
             key={i}
-            className={`cursor-pointer leading-6 hover:text-red-700 group ${
-              limit === 0 ? "block" : i < limit ? "block" : "hidden"
-            }`}
+            className={`cursor-pointer leading-6 hover:text-red-700 group ${limit === 0 ? "block" : i < limit ? "block" : "hidden"
+              }`}
           >
             <label
               htmlFor={item.name}
@@ -70,11 +69,10 @@ const CheckboxGroup = (checkbox: CheckboxGroupProps) => {
                 onChange={() => handleCheckbox(item)}
               />
               <span
-                className={`absolute top-1/2 -translate-y-1/2 left-0 w-5 h-5 border rounded ${
-                  value[i].checked
-                    ? "border-red-700 after:absolute after:content-[''] after:top-[calc(50%-2px)] after:-translate-y-1/2 after:left-1/2 after:-translate-x-1/2 after:border-solid after:border-red-700 after:border-r-[3px]  after:border-b-[3px] after:rotate-45 after:w-1.5 after:h-2.5"
-                    : "border-zinc-200"
-                }`}
+                className={`absolute top-1/2 -translate-y-1/2 left-0 w-5 h-5 border rounded ${value[i].checked
+                  ? "border-red-700 after:absolute after:content-[''] after:top-[calc(50%-2px)] after:-translate-y-1/2 after:left-1/2 after:-translate-x-1/2 after:border-solid after:border-red-700 after:border-r-[3px]  after:border-b-[3px] after:rotate-45 after:w-1.5 after:h-2.5"
+                  : "border-zinc-200"
+                  }`}
               ></span>
               <p className="ml-7 select-none">
                 {item.name}
