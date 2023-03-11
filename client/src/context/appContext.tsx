@@ -13,6 +13,9 @@ interface AppContextType {
   closeNavDesktopLeft: () => void;
   toggleNavDesktopLeft: () => void;
   openNavMobile: () => void;
+  isOpenPopUpCart: boolean;
+  openPopUpCart: () => void;
+  closePopUpCart: () => void;
 }
 
 const AppContext = createContext({} as AppContextType);
@@ -22,6 +25,7 @@ const AppProvider = ({ children }: Required<ChildrenProps>) => {
   const [isOpenNavDesktopLeft, setIsOpenNavDesktopLeft] = useState(false);
   const [isActiveProductQuickview, setIsActiveProductQuickview] =
     useState(false);
+  const [isOpenPopUpCart, setIsOpenPopUpCart] = useState(false);
   const [product, setProduct] = useState({} as ProductState);
 
   const closeNavMobile = useCallback(() => {
@@ -49,6 +53,14 @@ const AppProvider = ({ children }: Required<ChildrenProps>) => {
     setIsActiveProductQuickview(false);
   }, []);
 
+  const openPopUpCart = useCallback(() => {
+    setIsOpenPopUpCart(true);
+  }, []);
+
+  const closePopUpCart = useCallback(() => {
+    setIsOpenPopUpCart(false);
+  }, []);
+
   return (
     <AppContext.Provider
       value={{
@@ -62,6 +74,9 @@ const AppProvider = ({ children }: Required<ChildrenProps>) => {
         isOpenNavDesktopLeft,
         closeNavDesktopLeft,
         toggleNavDesktopLeft,
+        isOpenPopUpCart,
+        openPopUpCart,
+        closePopUpCart,
       }}
     >
       {children}

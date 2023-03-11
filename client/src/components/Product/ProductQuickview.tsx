@@ -12,31 +12,7 @@ import Overlay from "../Overlay/Overlay";
 import useNavigationSwiper from "../../hooks/useNavigationSwiper";
 import { useDispatch } from "react-redux";
 import { addCart } from "../../redux/reducers/cartSlice";
-
-const duration = 0.2;
-
-const variants = {
-  open: {
-    opacity: 1,
-    scale: 1,
-    display: "flex",
-    transition: {
-      duration,
-      ease: "easeIn",
-    },
-  },
-  closed: {
-    scale: 0.95,
-    opacity: 0,
-    transition: {
-      duration,
-      ease: "easeOut",
-    },
-    transitionEnd: {
-      display: "none",
-    },
-  },
-};
+import { portalVariants } from "../../data/variants";
 
 const ProductQuickview = () => {
   const { isActiveProductQuickview, closeProductQuickview, product } =
@@ -55,10 +31,10 @@ const ProductQuickview = () => {
 
   return (
     <>
-      <Overlay active={isActiveProductQuickview} duration={duration} />
+      <Overlay active={isActiveProductQuickview} />
       <motion.div
         initial="closed"
-        variants={variants}
+        variants={portalVariants}
         animate={isActiveProductQuickview ? "open" : "closed"}
         className="fixed inset-0 w-full h-full flex items-center z-[828282]"
       >
@@ -178,7 +154,6 @@ const ProductQuickview = () => {
               </div>
               <button
                 onClick={() => {
-                  console.log(!quantity);
                   if (!quantity) {
                     resetQuantity();
                   }
@@ -207,7 +182,7 @@ const ProductQuickview = () => {
             }}
             className="absolute -top-2.5 -right-2.5 w-6 h-6 text-white bg-red-700 rounded-full z-[82828282]"
           >
-            <XMark className="w-3.5 h-3.5 mx-auto" />
+            <XMark className="w-3.5 h-3.5 mx-auto hover:underline" />
           </button>
         </div>
       </motion.div>

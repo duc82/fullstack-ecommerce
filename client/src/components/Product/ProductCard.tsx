@@ -8,13 +8,13 @@ import { ProductState } from "../../redux/reducers/productSlice";
 import formatVnd from "../../utils/formatVnd";
 import ProductRate from "./ProductRate";
 
-interface ProductCard {
+type ProductCard = {
   product: ProductState;
   isCarousel?: boolean;
-}
+};
 
 const ProductCard = ({ product, isCarousel = false }: ProductCard) => {
-  const { openProductQuickview } = useGlobalContext();
+  const { openProductQuickview, openPopUpCart } = useGlobalContext();
   const [isHoverProductCard, setIsHoverProductCard] = useState(false);
   const dispatch = useDispatch();
 
@@ -84,8 +84,10 @@ const ProductCard = ({ product, isCarousel = false }: ProductCard) => {
               </div>
             </React.Fragment>
           )}
+
+          {/* Them gio hang */}
           <div
-            onClick={() =>
+            onClick={() => {
               dispatch(
                 addCart({
                   id: product.id,
@@ -95,8 +97,9 @@ const ProductCard = ({ product, isCarousel = false }: ProductCard) => {
                   image: product.images[1].src,
                   quantity: 1,
                 })
-              )
-            }
+              );
+              openPopUpCart();
+            }}
             className={`flex items-center justify-center h-0 ${
               isHoverProductCard ? "h-[92px]" : ""
             }`}

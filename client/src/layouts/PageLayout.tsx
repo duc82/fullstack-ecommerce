@@ -1,15 +1,18 @@
 import React from "react";
 import { createPortal } from "react-dom";
 import { Outlet } from "react-router-dom";
+import PopUpCart from "../components/Cart/PopUpCart";
 import Footer from "../components/Footer/Footer";
 import Header from "../components/Header/Header";
 import NavMobile from "../components/Navbar/Mobile/NavMobile";
 import ProductQuickview from "../components/Product/ProductQuickview";
 import useScroll from "../hooks/useScroll";
+import useWindowResize from "../hooks/useWindowResize";
 import { DoubleUp, Phone } from "../icons/icons";
 
 const PageLayout = () => {
   const [, y] = useScroll();
+  const [widthWindow] = useWindowResize();
 
   return (
     <>
@@ -17,8 +20,9 @@ const PageLayout = () => {
 
       {createPortal(
         <div id="portal">
-          <NavMobile />
+          {widthWindow < 992 && <NavMobile />}
           <ProductQuickview />
+          <PopUpCart />
         </div>,
         document.body
       )}
