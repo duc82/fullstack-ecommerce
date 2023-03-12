@@ -2,17 +2,17 @@ import React, { memo, useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { Close } from "../../icons/icons";
-import { Carts, deleteItemCart } from "../../redux/reducers/cartSlice";
+import { Cart, deleteItemCart } from "../../redux/reducers/cartSlice";
 import formatVnd from "../../utils/formatVnd";
 
 type CartProps = {
-  carts: Carts[];
+  carts: Cart[];
 }
 
-const totalCostCartReduce = (carts: Carts[]) =>
+export const totalCostCartReduce = (carts: Cart[]) =>
   carts.reduce((a, b) => a + b.cost * b.quantity, 0);
 
-const Cart = ({ carts }: CartProps) => {
+const CartItems = ({ carts }: CartProps) => {
   const totalCostCartItems = useMemo(() => totalCostCartReduce(carts), [carts]);
   const dispatch = useDispatch();
 
@@ -79,4 +79,4 @@ const Cart = ({ carts }: CartProps) => {
   );
 };
 
-export default memo(Cart);
+export default memo(CartItems);

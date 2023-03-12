@@ -20,7 +20,7 @@ import NavDesktopRight from "../Navbar/Desktop/NavDesktopRight";
 import { motion } from "framer-motion";
 import { useGlobalContext } from "../../context/appContext";
 import { useAppSelector } from "../../hooks/redux";
-import Cart from "../Cart/Cart";
+import Cart from "../Cart/CartItems";
 import { Carts } from "../../redux/reducers/cartSlice";
 
 const variants = {

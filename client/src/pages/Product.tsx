@@ -11,6 +11,7 @@ import { motion } from "framer-motion";
 import Overlay from "../components/Overlay/Overlay";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { getProducts } from "../services/products";
+import NotFound from "./NotFound";
 
 const duration = 0.3;
 
@@ -62,14 +63,13 @@ const Product = ({ title }: { title: string }) => {
 
   useEffect(() => {
     getProducts(
-      `${import.meta.env.VITE_API}/api/product/get/${
-        title === "Sản phẩm" ? "Tất cả sản phẩm" : title
+      `${import.meta.env.VITE_API}/api/product/get/${title === "Sản phẩm" ? "Tất cả sản phẩm" : title
       }`,
       dispatch
     );
   }, [title, dispatch]);
 
-  if (error) return <div>{error}</div>;
+  if (error) return <NotFound />;
 
   return (
     <>

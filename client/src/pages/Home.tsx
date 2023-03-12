@@ -118,7 +118,6 @@ const Home = () => {
         r.status === "rejected" ? errorHandling(r.reason).message : undefined
       );
 
-      console.log(errors)
 
     });
   }, []);

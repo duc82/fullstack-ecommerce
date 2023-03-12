@@ -164,6 +164,7 @@ const ProductQuickview = () => {
                       cost: product.cost,
                       image: product.images[1].src,
                       quantity: !quantity ? 1 : Number(quantity),
+                      stock: product.stock
                     })
                   );
                 }}

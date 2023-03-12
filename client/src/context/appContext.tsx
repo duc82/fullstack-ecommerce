@@ -61,6 +61,8 @@ const AppProvider = ({ children }: ChildrenProps) => {
     setIsOpenPopUpCart(false);
   }, []);
 
+
+
   return (
     <AppContext.Provider
       value={{

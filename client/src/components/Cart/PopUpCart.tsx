@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { CaretDown, CaretUp, Check, XMark } from "../../icons/icons";
 import formatVnd from "../../utils/formatVnd";
@@ -6,18 +6,35 @@ import { motion } from "framer-motion";
 import { useGlobalContext } from "../../context/appContext";
 import Overlay from "../Overlay/Overlay";
 import { portalVariants } from "../../data/variants";
-import useQuantity from "../../hooks/useQuantity";
+import { totalCostCartReduce } from "./CartItems";
+import { useAppSelector } from "../../hooks/redux";
+
 
 const PopUpCart = () => {
+  const { carts } = useAppSelector((state) => state.cart)
   const { isOpenPopUpCart, closePopUpCart } = useGlobalContext();
 
-  const {
-    quantity,
-    increaseQuantity,
-    inputChangeQuantity,
-    decreaseQuantity,
-    resetQuantity,
-  } = useQuantity(1, 100);
+  const [quantities, setQuantities] = useState<number[]>(carts.map(cart => cart.quantity))
+
+  console.log(quantities[0])
+
+  const increaseQuantity = (index: number) => {
+    if (quantities[index] < carts[index].stock) {
+      setQuantities((prev) => [...prev, prev[index] + 1]);
+    }
+  };
+
+  const inputChangeQuantity = (index: number) => {
+    console.log("change")
+  }
+
+  const decreaseQuantity = (index: number) => {
+    if (quantities[index] > 1) {
+      setQuantities((prev) => [...prev, prev[index] - 1])
+    }
+  }
+
+  const totalCostCartItems = useMemo(() => totalCostCartReduce(carts), [carts])
 
   return (
     <>
@@ -37,9 +54,8 @@ const PopUpCart = () => {
             <Check className="w-5 h-5" />
             <p>
               Bạn đã thêm{" "}
-              <Link to="/gio-hang" className="text-red-700 inline-block">
-                Nồi chiên nướng không dầu Magic Eco AC-102 - Tặng Bộ thố Hoặc Bộ
-                6 chén đũa
+              <Link to="/gio-hang" className="text-red-700 inline-block line-clamp-2">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate cumque, quo inventore, porro consequuntur ullam placeat sed facere dolor aut ea neque amet enim quam ipsa eveniet odit id voluptate.
               </Link>{" "}
               vào giỏ hàng
             </p>
@@ -49,44 +65,42 @@ const PopUpCart = () => {
               Giỏ hàng của bạn
             </h1>
             <table className="w-full">
-              <thead>
-                <tr className="border-b border-b-zinc-200">
+              <thead className="block">
+                <tr className="relative flex border-b border-b-zinc-200">
                   <th className="w-1/2 text-left py-4">Sản phẩm</th>
-                  <th className="text-center py-4">Giá</th>
-                  <th className="text-center py-4">Số lượng</th>
-                  <th className="text-right py-4">Tổng tiền</th>
+                  <th className="w-[15%] text-center py-4">Giá</th>
+                  <th className="w-1/5 text-center py-4">Số lượng</th>
+                  <th className="w-[15%] text-right py-4">Tổng tiền</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr className="border-b border-b-zinc-200 min-h-[130px]">
-                  <td className="w-1/2 text-left py-4">
-                    <div className="flex items-start space-x-12">
-                      <img
-                        src="https://picsum.photos/1000?random=1"
-                        alt=""
-                        width={80}
-                      />
-                      <div>
+              <tbody className="block overflow-y-auto max-h-[260px]">
+                {carts.map((cart, i) => <tr key={i} className="border-b flex items-center border-b-zinc-200">
+                  <td className="w-1/2 text-left">
+                    <div className="flex items-start space-x-10">
+                      <Link to="/" className="w-[120px] h-[130px]">
+                        <img
+                          src={cart.image}
+                          alt={cart.name}
+                          className="h-full w-full py-2.5 pr-2.5"
+                        />
+                      </Link>
+                      <div className="py-4">
                         <p className="line-clamp-2 mb-2">
-                          Lorem ipsum dolor sit amet consectetur adipisicing
-                          elit. Voluptas quisquam repellat numquam eius in
-                          aperiam voluptates, cum voluptatibus, maxime quae sunt
-                          dolorem voluptatem velit autem aut ducimus aliquam
-                          enim eaque.
+                          {cart.name}
                         </p>
                         <button>Xoa</button>
                       </div>
                     </div>
                   </td>
-                  <td className="text-center py-4">
+                  <td className="w-[15%] text-center py-4">
                     <span className="text-red-700 font-bold">
-                      {formatVnd(2500000)}
+                      {formatVnd(cart.cost)}
                     </span>
                   </td>
-                  <td className="text-center py-4">
+                  <td className="w-1/5 text-center py-4">
                     <div className="relative w-[100px] mx-auto">
                       <button
-                        onClick={increaseQuantity}
+                        onClick={() => increaseQuantity(i)}
                         className="absolute right-0 top-0 w-5 h-5 text-zinc-500 flex items-end justify-center"
                       >
                         <CaretUp className="w-2 h-3.5" />
@@ -95,39 +109,35 @@ const PopUpCart = () => {
                         type="text"
                         id="quantity"
                         name="quantity"
-                        value={quantity}
-                        onChange={inputChangeQuantity}
+                        value={quantities[i]}
+                        onChange={() => inputChangeQuantity(i)}
                         className="border border-zinc-200 h-10 rounded-md text-center w-full"
                       />
                       <button
-                        onClick={decreaseQuantity}
+                        onClick={() => decreaseQuantity(i)}
                         className="absolute right-0 bottom-0 w-5 h-5 text-zinc-500 flex items-start justify-center"
                       >
                         <CaretDown className="w-2 h-3.5" />
                       </button>
                     </div>
                   </td>
-                  <td className="text-right py-4">
+                  <td className="w-[15%] text-right py-4">
                     <span className="text-red-700 font-bold">
-                      {formatVnd(2500000)}
+                      {formatVnd(cart.quantity * cart.cost)}
                     </span>
                   </td>
-                </tr>
+                </tr>)}
               </tbody>
             </table>
+
             <div className="flex flex-col items-end">
               <div className="py-4 pb-2.5 pl-9">
                 <p className="inline-block">Tổng số thành tiền:</p>{" "}
                 <span className="text-red-700 font-bold text-lg inline-block">
-                  {formatVnd(2500000)}
+                  {formatVnd(totalCostCartItems)}
                 </span>
               </div>
               <button
-                onClick={() => {
-                  if (!quantity) {
-                    resetQuantity();
-                  }
-                }}
                 type="button"
                 className="font-roboto font-bold px-8 mb-2.5 border h-[50px] text-base border-red-700 text-center cursor-pointer transition-colors duration-100 ease-in flex-auto hover:bg-white hover:text-red-700 bg-red-700 text-white rounded-md"
               >
