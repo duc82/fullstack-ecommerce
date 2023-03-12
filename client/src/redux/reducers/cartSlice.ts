@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export type Cart = {
+export type CartItem = {
   id: number;
   name: string;
   slug: string;
@@ -11,33 +11,61 @@ export type Cart = {
 };
 
 type CartState = {
-  carts: Cart[];
+  items: CartItem[];
+  total: number;
 };
 
 const initialState: CartState = {
-  carts: [],
+  items: [],
+  total: 0,
 };
 
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addCart: (state, action: PayloadAction<Cart>) => {
-      const cartItem = action.payload;
-      const itemInCart = state.carts.find((cart) => cart.id === cartItem.id);
+    addItemCart: (state, action: PayloadAction<CartItem>) => {
+      const newItem = action.payload;
+      if (newItem.quantity < 1) {
+        return;
+      }
+      const itemInCart = state.items.find((item) => item.id === newItem.id);
+
       if (itemInCart) {
-        itemInCart.quantity += cartItem.quantity;
+        if (itemInCart.quantity + newItem.quantity > itemInCart.stock) {
+          return;
+        }
+        itemInCart.quantity += newItem.quantity;
       } else {
-        state.carts = [...state.carts, cartItem];
+        state.items.push(newItem);
+      }
+      state.total += newItem.cost * newItem.quantity;
+    },
+    subItemCart: (state, action: PayloadAction<CartItem>) => {
+      const newItem = action.payload;
+      if (newItem.quantity < 1) {
+        return;
+      }
+      const itemInCart = state.items.find((item) => item.id === newItem.id);
+
+      if (itemInCart) {
+        itemInCart.quantity -= newItem.quantity;
+        state.total -= newItem.cost * newItem.quantity;
       }
     },
-    deleteItemCart: (state, action: PayloadAction<number>) => {
+    deleteItemCart: (state, action: PayloadAction<CartItem["id"]>) => {
       const idItem = action.payload;
-      state.carts = state.carts.filter((cart) => cart.id !== idItem);
+      const deletedIndex = state.items.findIndex((item) => item.id === idItem);
+      if (deletedIndex > -1) {
+        const deletedCost =
+          state.items[deletedIndex].cost * state.items[deletedIndex].quantity;
+        state.total -= deletedCost;
+        state.items.splice(deletedCost, 1);
+      }
     },
   },
 });
 
-export const { addCart, deleteItemCart } = cartSlice.actions;
+export const { addItemCart, subItemCart, deleteItemCart } = cartSlice.actions;
 
 export default cartSlice.reducer;

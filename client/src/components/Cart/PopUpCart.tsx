@@ -1,4 +1,4 @@
-import React, { memo, useState, useMemo } from "react";
+import React, { memo } from "react";
 import { Link } from "react-router-dom";
 import { CaretDown, CaretUp, Check, XMark } from "../../icons/icons";
 import formatVnd from "../../utils/formatVnd";
@@ -6,35 +6,26 @@ import { motion } from "framer-motion";
 import { useGlobalContext } from "../../context/appContext";
 import Overlay from "../Overlay/Overlay";
 import { portalVariants } from "../../data/variants";
-import { totalCostCartReduce } from "./CartItems";
 import { useAppSelector } from "../../hooks/redux";
-
+import { useDispatch } from "react-redux";
+import { addItemCart } from "../../redux/reducers/cartSlice";
 
 const PopUpCart = () => {
-  const { carts } = useAppSelector((state) => state.cart)
+  const { items, total } = useAppSelector((state) => state.cart);
   const { isOpenPopUpCart, closePopUpCart } = useGlobalContext();
-
-  const [quantities, setQuantities] = useState<number[]>(carts.map(cart => cart.quantity))
-
-  console.log(quantities[0])
+  const dispatch = useDispatch();
 
   const increaseQuantity = (index: number) => {
-    if (quantities[index] < carts[index].stock) {
-      setQuantities((prev) => [...prev, prev[index] + 1]);
-    }
+    console.log("hi");
   };
 
   const inputChangeQuantity = (index: number) => {
-    console.log("change")
-  }
+    console.log("change");
+  };
 
   const decreaseQuantity = (index: number) => {
-    if (quantities[index] > 1) {
-      setQuantities((prev) => [...prev, prev[index] - 1])
-    }
-  }
-
-  const totalCostCartItems = useMemo(() => totalCostCartReduce(carts), [carts])
+    console.log("hi");
+  };
 
   return (
     <>
@@ -54,8 +45,14 @@ const PopUpCart = () => {
             <Check className="w-5 h-5" />
             <p>
               Bạn đã thêm{" "}
-              <Link to="/gio-hang" className="text-red-700 inline-block line-clamp-2">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate cumque, quo inventore, porro consequuntur ullam placeat sed facere dolor aut ea neque amet enim quam ipsa eveniet odit id voluptate.
+              <Link
+                to="/gio-hang"
+                className="text-red-700 inline-block line-clamp-2"
+              >
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Cupiditate cumque, quo inventore, porro consequuntur ullam
+                placeat sed facere dolor aut ea neque amet enim quam ipsa
+                eveniet odit id voluptate.
               </Link>{" "}
               vào giỏ hàng
             </p>
@@ -74,59 +71,59 @@ const PopUpCart = () => {
                 </tr>
               </thead>
               <tbody className="block overflow-y-auto max-h-[260px]">
-                {carts.map((cart, i) => <tr key={i} className="border-b flex items-center border-b-zinc-200">
-                  <td className="w-1/2 text-left">
-                    <div className="flex items-start space-x-10">
-                      <Link to="/" className="w-[120px] h-[130px]">
-                        <img
-                          src={cart.image}
-                          alt={cart.name}
-                          className="h-full w-full py-2.5 pr-2.5"
-                        />
-                      </Link>
-                      <div className="py-4">
-                        <p className="line-clamp-2 mb-2">
-                          {cart.name}
-                        </p>
-                        <button>Xoa</button>
+                {items.map((item, i) => (
+                  <tr
+                    key={i}
+                    className="border-b flex items-center border-b-zinc-200"
+                  >
+                    <td className="w-1/2 text-left">
+                      <div className="flex items-start space-x-10">
+                        <Link to="/" className="w-[120px] h-[130px]">
+                          <img
+                            src={item.image}
+                            alt={item.name}
+                            className="h-full w-full py-2.5 pr-2.5"
+                          />
+                        </Link>
+                        <div className="py-4">
+                          <p className="line-clamp-2 mb-2">{item.name}</p>
+                          <button>Xoa</button>
+                        </div>
                       </div>
-                    </div>
-                  </td>
-                  <td className="w-[15%] text-center py-4">
-                    <span className="text-red-700 font-bold">
-                      {formatVnd(cart.cost)}
-                    </span>
-                  </td>
-                  <td className="w-1/5 text-center py-4">
-                    <div className="relative w-[100px] mx-auto">
-                      <button
-                        onClick={() => increaseQuantity(i)}
-                        className="absolute right-0 top-0 w-5 h-5 text-zinc-500 flex items-end justify-center"
-                      >
-                        <CaretUp className="w-2 h-3.5" />
-                      </button>
-                      <input
-                        type="text"
-                        id="quantity"
-                        name="quantity"
-                        value={quantities[i]}
-                        onChange={() => inputChangeQuantity(i)}
-                        className="border border-zinc-200 h-10 rounded-md text-center w-full"
-                      />
-                      <button
-                        onClick={() => decreaseQuantity(i)}
-                        className="absolute right-0 bottom-0 w-5 h-5 text-zinc-500 flex items-start justify-center"
-                      >
-                        <CaretDown className="w-2 h-3.5" />
-                      </button>
-                    </div>
-                  </td>
-                  <td className="w-[15%] text-right py-4">
-                    <span className="text-red-700 font-bold">
-                      {formatVnd(cart.quantity * cart.cost)}
-                    </span>
-                  </td>
-                </tr>)}
+                    </td>
+                    <td className="w-[15%] text-center py-4">
+                      <span className="text-red-700 font-bold">
+                        {formatVnd(item.cost)}
+                      </span>
+                    </td>
+                    <td className="w-1/5 text-center py-4">
+                      <div className="relative w-[100px] mx-auto">
+                        <button className="absolute right-0 top-0 w-5 h-5 text-zinc-500 flex items-end justify-center">
+                          <CaretUp className="w-2 h-3.5" />
+                        </button>
+                        <input
+                          type="text"
+                          id="quantity"
+                          name="quantity"
+                          value={item.quantity}
+                          onChange={() => inputChangeQuantity(i)}
+                          className="border border-zinc-200 h-10 rounded-md text-center w-full"
+                        />
+                        <button
+                          onClick={() => decreaseQuantity(i)}
+                          className="absolute right-0 bottom-0 w-5 h-5 text-zinc-500 flex items-start justify-center"
+                        >
+                          <CaretDown className="w-2 h-3.5" />
+                        </button>
+                      </div>
+                    </td>
+                    <td className="w-[15%] text-right py-4">
+                      <span className="text-red-700 font-bold">
+                        {formatVnd(item.quantity * item.cost)}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
 
@@ -134,7 +131,7 @@ const PopUpCart = () => {
               <div className="py-4 pb-2.5 pl-9">
                 <p className="inline-block">Tổng số thành tiền:</p>{" "}
                 <span className="text-red-700 font-bold text-lg inline-block">
-                  {formatVnd(totalCostCartItems)}
+                  {formatVnd(total)}
                 </span>
               </div>
               <button

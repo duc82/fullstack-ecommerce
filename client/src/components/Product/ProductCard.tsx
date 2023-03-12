@@ -96,6 +96,7 @@ const ProductCard = ({ product, isCarousel = false }: ProductCard) => {
                   cost: product.cost,
                   image: product.images[1].src,
                   quantity: 1,
+                  stock: product.stock,
                 })
               );
               openPopUpCart();
