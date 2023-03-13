@@ -1,51 +1,48 @@
-import React, { memo, useMemo } from "react";
+import React, { memo } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { useAppSelector } from "../../hooks/redux";
 import { Close } from "../../icons/icons";
-import { Cart, deleteItemCart } from "../../redux/reducers/cartSlice";
+import { deleteItemCart } from "../../redux/reducers/cartSlice";
 import formatVnd from "../../utils/formatVnd";
 
-type CartProps = {
-  carts: Cart[];
-}
 
-export const totalCostCartReduce = (carts: Cart[]) =>
-  carts.reduce((a, b) => a + b.cost * b.quantity, 0);
 
-const CartItems = ({ carts }: CartProps) => {
-  const totalCostCartItems = useMemo(() => totalCostCartReduce(carts), [carts]);
+
+const Cart = () => {
   const dispatch = useDispatch();
+  const { items, total } = useAppSelector((state) => state.cart)
 
   return (
     <div className="absolute right-0 top-10 z-[8282] pt-8 pb-1 hidden lg:hover:block lg:peer-hover:block">
-      {carts.length > 0 ? (
+      {items.length > 0 ? (
         <div className="bg-white w-72 shadow-md">
           <ul className="overflow-y-auto max-h-60 px-4">
-            {carts.map((cart) => (
+            {items.map((item) => (
               <li
-                key={cart.id}
+                key={item.id}
                 className="py-4 flex items-start space-x-2 border-b border-b-zinc-200"
               >
-                <Link to={`/${cart.slug}`} className="w-16 h-16">
-                  <img src={cart.image} alt={"Cart Item"} />
+                <Link to={`/${item.slug}`} className="w-16 h-16">
+                  <img src={item.image} alt={"Cart Item"} />
                 </Link>
                 <div className="flex-1 min-w-0 relative">
                   <Link
-                    to={`/${cart.slug}`}
+                    to={`/${item.slug}`}
                     className="line-clamp-2 text-sm leading-5 pr-2.5 hover:text-red-700 transition duration-150 ease-in-out"
                   >
-                    {cart.name}
+                    {item.name}
                   </Link>
                   <div className="flex items-center space-x-2">
                     <span className="text-red-700 font-bold uppercase">
-                      {formatVnd(cart.cost)}
+                      {formatVnd(item.cost)}
                     </span>
                     <span className="text-zinc-500/75 font-bold">
-                      x {cart.quantity}
+                      x {item.quantity}
                     </span>
                   </div>
                   <button
-                    onClick={() => dispatch(deleteItemCart(cart.id))}
+                    onClick={() => dispatch(deleteItemCart(item.id))}
                     className="absolute top-0 -right-2.5 h-5 w-5 rounded-full text-black hover:bg-red-700 hover:text-white transition duration-150 ease-in-out"
                   >
                     <Close className="w-2.5 h-2.5 mx-auto" />
@@ -58,7 +55,7 @@ const CartItems = ({ carts }: CartProps) => {
             Tổng cộng:
             <span className="text-[13px] leading-6">
               {" "}
-              {formatVnd(totalCostCartItems)}
+              {formatVnd(total)}
             </span>
           </div>
           <div className="mt-2.5 px-4 pb-4">
@@ -79,4 +76,4 @@ const CartItems = ({ carts }: CartProps) => {
   );
 };
 
-export default memo(CartItems);
+export default memo(Cart);

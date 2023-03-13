@@ -20,8 +20,8 @@ import NavDesktopRight from "../Navbar/Desktop/NavDesktopRight";
 import { motion } from "framer-motion";
 import { useGlobalContext } from "../../context/appContext";
 import { useAppSelector } from "../../hooks/redux";
-import Cart from "../Cart/CartItems";
-import { Carts } from "../../redux/reducers/cartSlice";
+import Cart from "../Cart/Cart";
+import { CartItem } from "../../redux/reducers/cartSlice";
 
 const variants = {
   open: {
@@ -44,51 +44,24 @@ const variants = {
   },
 };
 
-// const carts: CartItem[] = [
-//   {
-//     id: 1,
-//     name: "Noi chien khong dau",
-//     img: "https://picsum.photos/1182/500?random=1",
-//     slug: "noi-chien-khong-dau",
-//     cost: 2000000,
-//     quantity: 5,
-//      totalCost: 10000000
-//   },
-//   {
-//     id: 2,
-//     name: "may say",
-//     img: "https://picsum.photos/1182/500?random=2",
-//     slug: "may-say",
-//     cost: 1000000,
-//     quantity: 2,
-//      totalCost: 2000000
-//   },
-//   {
-//     id: 3,
-//     name: "tu lanh",
-//     img: "https://picsum.photos/1182/500?random=3",
-//     slug: "tu-lanh",
-//     cost: 5000000,
-//     quantity: 1,
-//      totalCost: 5000000
-//   },
-// ];
+
 
 const searchCategories = ["Sản phẩm", "Tin tức"];
-const totalCartItemCount = (carts: Carts[]) =>
-  carts.reduce((a, b) => a + 1 * b.quantity, 0);
+const totalCartItemCount = (items: CartItem[]) =>
+  items.reduce((a, b) => a + 1 * b.quantity, 0);
 
 const Header = () => {
   const { openNavMobile } = useGlobalContext();
 
   const [searchCategory, setSearchCategory] = useState(searchCategories[0]);
   const [isOpenCategory, setOpenCategory] = useState(false);
-
+  // eslint-disable-next-line no-debugger
   const { isOpenNavDesktopLeft, toggleNavDesktopLeft } = useGlobalContext();
+  const { items } = useAppSelector((state) => state.cart);
 
   const { isLoggedIn } = useAppSelector((state) => state.auth);
 
-  const { carts } = useAppSelector((state) => state.cart);
+  console.log(items)
 
   return (
     <header>
@@ -203,10 +176,10 @@ const Header = () => {
                 >
                   <CartShopping className="w-4 h-4 mx-auto" />
                   <span className="absolute -top-1 -right-2 w-5 h-5 lg:w-6 lg:h-6 lg:-right-2.5 lg:-top-2 bg-red-700 rounded-full text-white text-center flex items-center justify-center">
-                    {totalCartItemCount(carts)}
+                    {totalCartItemCount(items)}
                   </span>
                 </Link>
-                <Cart carts={carts} />
+                <Cart />
               </div>
               {/* Account auth */}
               <div className="hidden lg:flex items-center justify-center space-x-3 text-zinc-800">

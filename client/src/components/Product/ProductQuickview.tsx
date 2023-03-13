@@ -11,7 +11,7 @@ import useQuantity from "../../hooks/useQuantity";
 import Overlay from "../Overlay/Overlay";
 import useNavigationSwiper from "../../hooks/useNavigationSwiper";
 import { useDispatch } from "react-redux";
-import { addCart } from "../../redux/reducers/cartSlice";
+import { addItemCart } from "../../redux/reducers/cartSlice";
 import { portalVariants } from "../../data/variants";
 
 const ProductQuickview = () => {
@@ -157,7 +157,7 @@ const ProductQuickview = () => {
                     resetQuantity();
                   }
                   dispatch(
-                    addCart({
+                    addItemCart({
                       id: product.id,
                       name: product.name,
                       slug: product.slug,

@@ -8,23 +8,40 @@ import Overlay from "../Overlay/Overlay";
 import { portalVariants } from "../../data/variants";
 import { useAppSelector } from "../../hooks/redux";
 import { useDispatch } from "react-redux";
-import { addItemCart } from "../../redux/reducers/cartSlice";
+import { addItemCart, CartItem, subItemCart } from "../../redux/reducers/cartSlice";
 
 const PopUpCart = () => {
   const { items, total } = useAppSelector((state) => state.cart);
   const { isOpenPopUpCart, closePopUpCart } = useGlobalContext();
   const dispatch = useDispatch();
 
-  const increaseQuantity = (index: number) => {
-    console.log("hi");
-  };
+  const increaseQuantity = (item: CartItem) => {
+    dispatch(addItemCart({
+      id: item.id,
+      name: item.name,
+      slug: item.slug,
+      cost: item.cost,
+      image: item.image,
+      quantity: 1,
+      stock: item.stock
+    }))
+  }
 
-  const inputChangeQuantity = (index: number) => {
+  const inputChangeQuantity = (item: CartItem) => {
     console.log("change");
+
   };
 
-  const decreaseQuantity = (index: number) => {
-    console.log("hi");
+  const decreaseQuantity = (item: CartItem) => {
+    dispatch(subItemCart({
+      id: item.id,
+      name: item.name,
+      slug: item.slug,
+      cost: item.cost,
+      image: item.image,
+      quantity: 1,
+      stock: item.stock
+    }))
   };
 
   return (
@@ -71,14 +88,14 @@ const PopUpCart = () => {
                 </tr>
               </thead>
               <tbody className="block overflow-y-auto max-h-[260px]">
-                {items.map((item, i) => (
+                {items.map((item) => (
                   <tr
-                    key={i}
+                    key={item.id}
                     className="border-b flex items-center border-b-zinc-200"
                   >
                     <td className="w-1/2 text-left">
                       <div className="flex items-start space-x-10">
-                        <Link to="/" className="w-[120px] h-[130px]">
+                        <Link to={"/" + item.slug} className="w-[120px] h-[130px]">
                           <img
                             src={item.image}
                             alt={item.name}
@@ -98,7 +115,7 @@ const PopUpCart = () => {
                     </td>
                     <td className="w-1/5 text-center py-4">
                       <div className="relative w-[100px] mx-auto">
-                        <button className="absolute right-0 top-0 w-5 h-5 text-zinc-500 flex items-end justify-center">
+                        <button onClick={() => increaseQuantity(item)} className="absolute right-0 top-0 w-5 h-5 text-zinc-500 flex items-end justify-center">
                           <CaretUp className="w-2 h-3.5" />
                         </button>
                         <input
@@ -106,11 +123,11 @@ const PopUpCart = () => {
                           id="quantity"
                           name="quantity"
                           value={item.quantity}
-                          onChange={() => inputChangeQuantity(i)}
+                          onChange={() => inputChangeQuantity(item)}
                           className="border border-zinc-200 h-10 rounded-md text-center w-full"
                         />
                         <button
-                          onClick={() => decreaseQuantity(i)}
+                          onClick={() => decreaseQuantity(item)}
                           className="absolute right-0 bottom-0 w-5 h-5 text-zinc-500 flex items-start justify-center"
                         >
                           <CaretDown className="w-2 h-3.5" />
