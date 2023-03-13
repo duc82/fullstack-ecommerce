@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { ChangeEvent, memo } from "react";
 import { Link } from "react-router-dom";
 import { CaretDown, CaretUp, Check, XMark } from "../../icons/icons";
 import formatVnd from "../../utils/formatVnd";
@@ -8,7 +8,12 @@ import Overlay from "../Overlay/Overlay";
 import { portalVariants } from "../../data/variants";
 import { useAppSelector } from "../../hooks/redux";
 import { useDispatch } from "react-redux";
-import { addItemCart, CartItem, subItemCart } from "../../redux/reducers/cartSlice";
+import {
+  addItemCart,
+  CartItem,
+  subItemCart,
+  updateItemCart,
+} from "../../redux/reducers/cartSlice";
 
 const PopUpCart = () => {
   const { items, total } = useAppSelector((state) => state.cart);
@@ -16,32 +21,49 @@ const PopUpCart = () => {
   const dispatch = useDispatch();
 
   const increaseQuantity = (item: CartItem) => {
-    dispatch(addItemCart({
-      id: item.id,
-      name: item.name,
-      slug: item.slug,
-      cost: item.cost,
-      image: item.image,
-      quantity: 1,
-      stock: item.stock
-    }))
-  }
+    dispatch(
+      addItemCart({
+        id: item.id,
+        name: item.name,
+        slug: item.slug,
+        cost: item.cost,
+        image: item.image,
+        quantity: 1,
+        stock: item.stock,
+      })
+    );
+  };
 
-  const inputChangeQuantity = (item: CartItem) => {
-    console.log("change");
-
+  const inputChangeQuantity = (
+    e: ChangeEvent<HTMLInputElement>,
+    item: CartItem
+  ) => {
+    console.log(e.target.value);
+    // dispatch(
+    //   updateItemCart({
+    //     id: item.id,
+    //     name: item.name,
+    //     slug: item.slug,
+    //     cost: item.cost,
+    //     image: item.image,
+    //     quantity: 1,
+    //     stock: item.stock,
+    //   })
+    // );
   };
 
   const decreaseQuantity = (item: CartItem) => {
-    dispatch(subItemCart({
-      id: item.id,
-      name: item.name,
-      slug: item.slug,
-      cost: item.cost,
-      image: item.image,
-      quantity: 1,
-      stock: item.stock
-    }))
+    dispatch(
+      subItemCart({
+        id: item.id,
+        name: item.name,
+        slug: item.slug,
+        cost: item.cost,
+        image: item.image,
+        quantity: 1,
+        stock: item.stock,
+      })
+    );
   };
 
   return (
@@ -95,7 +117,10 @@ const PopUpCart = () => {
                   >
                     <td className="w-1/2 text-left">
                       <div className="flex items-start space-x-10">
-                        <Link to={"/" + item.slug} className="w-[120px] h-[130px]">
+                        <Link
+                          to={"/" + item.slug}
+                          className="w-[120px] h-[130px]"
+                        >
                           <img
                             src={item.image}
                             alt={item.name}
@@ -115,7 +140,10 @@ const PopUpCart = () => {
                     </td>
                     <td className="w-1/5 text-center py-4">
                       <div className="relative w-[100px] mx-auto">
-                        <button onClick={() => increaseQuantity(item)} className="absolute right-0 top-0 w-5 h-5 text-zinc-500 flex items-end justify-center">
+                        <button
+                          onClick={() => increaseQuantity(item)}
+                          className="absolute right-0 top-0 w-5 h-5 text-zinc-500 flex items-end justify-center"
+                        >
                           <CaretUp className="w-2 h-3.5" />
                         </button>
                         <input
@@ -123,7 +151,7 @@ const PopUpCart = () => {
                           id="quantity"
                           name="quantity"
                           value={item.quantity}
-                          onChange={() => inputChangeQuantity(item)}
+                          onChange={(e) => inputChangeQuantity(e, item)}
                           className="border border-zinc-200 h-10 rounded-md text-center w-full"
                         />
                         <button

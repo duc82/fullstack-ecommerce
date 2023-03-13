@@ -63,17 +63,16 @@ const cartSlice = createSlice({
         return;
       }
 
-      const updateIndex = state.items.findIndex(
-        (item) => item.id === newItem.id
-      );
+      const itemInCart = state.items.find((item) => item.id === newItem.id);
 
-      if (updateIndex > -1) {
-        const updateCost =
-          state.items[updateIndex].cost * state.items[updateIndex].quantity;
-        state.items[updateIndex].quantity = newItem.quantity;
-        if (newItem.quantity > state.items[updateIndex].quantity) {
-          state.total += updateCost;
+      if (itemInCart) {
+        if (newItem.quantity > itemInCart.stock) {
+          return;
         }
+        state.total -= itemInCart.cost * itemInCart.quantity; // subtract old cost
+        state.total += newItem.cost * newItem.quantity; // add new cost
+        itemInCart.quantity = newItem.quantity; // update quantity
+        itemInCart.cost = newItem.cost; // update cost
       }
     },
     deleteItemCart: (state, action: PayloadAction<CartItem["id"]>) => {
@@ -89,6 +88,7 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addItemCart, subItemCart, deleteItemCart } = cartSlice.actions;
+export const { addItemCart, subItemCart, updateItemCart, deleteItemCart } =
+  cartSlice.actions;
 
 export default cartSlice.reducer;
