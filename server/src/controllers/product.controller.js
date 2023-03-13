@@ -8,7 +8,7 @@ const Rating = require("../models/rating.model");
 const productController = {
   getProduct: asyncWrapper(async (req, res) => {
     const { category } = req.params;
-    const { page, limit, sort, cost, brand, avgRating } = req.query;
+    const { page, limit, sort, cost, brand, avgRating, name } = req.query;
     const obj = {
       where: {},
       attributes: [
@@ -24,6 +24,7 @@ const productController = {
         "desc",
         "sold",
         "category",
+        "stock",
         [
           Sequelize.literal(
             `(SELECT COUNT(id) FROM "Ratings" WHERE "Ratings"."productId" = "Product"."id")`
@@ -93,6 +94,15 @@ const productController = {
       obj.where.avgRating = {
         [Op.gte]: Number(avgRating),
       };
+    }
+
+    if (name) {
+      obj.where = Sequelize.where(
+        Sequelize.fn("unaccent", Sequelize.col("Product.name")),
+        {
+          [Op.iLike]: `%${name}%`,
+        }
+      );
     }
 
     console.log(obj);

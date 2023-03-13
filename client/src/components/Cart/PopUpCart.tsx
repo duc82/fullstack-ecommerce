@@ -1,4 +1,4 @@
-import React, { ChangeEvent, memo } from "react";
+import React, { ChangeEvent, memo, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { CaretDown, CaretUp, Check, XMark } from "../../icons/icons";
 import formatVnd from "../../utils/formatVnd";
@@ -8,15 +8,17 @@ import Overlay from "../Overlay/Overlay";
 import { portalVariants } from "../../data/variants";
 import { useAppSelector } from "../../hooks/redux";
 import { useDispatch } from "react-redux";
+import { Close } from "../../icons/icons";
 import {
   addItemCart,
   CartItem,
   subItemCart,
   updateItemCart,
+  deleteItemCart
 } from "../../redux/reducers/cartSlice";
 
 const PopUpCart = () => {
-  const { items, total } = useAppSelector((state) => state.cart);
+  const { items, total, newItem } = useAppSelector((state) => state.cart);
   const { isOpenPopUpCart, closePopUpCart } = useGlobalContext();
   const dispatch = useDispatch();
 
@@ -38,18 +40,22 @@ const PopUpCart = () => {
     e: ChangeEvent<HTMLInputElement>,
     item: CartItem
   ) => {
-    console.log(e.target.value);
-    // dispatch(
-    //   updateItemCart({
-    //     id: item.id,
-    //     name: item.name,
-    //     slug: item.slug,
-    //     cost: item.cost,
-    //     image: item.image,
-    //     quantity: 1,
-    //     stock: item.stock,
-    //   })
-    // );
+    const value = e.target.value;
+
+    const newValue = value.split(/\D/).join("");
+    if (newValue) {
+      dispatch(
+        updateItemCart({
+          id: item.id,
+          name: item.name,
+          slug: item.slug,
+          cost: item.cost,
+          image: item.image,
+          quantity: parseInt(newValue),
+          stock: item.stock,
+        })
+      );
+    }
   };
 
   const decreaseQuantity = (item: CartItem) => {
@@ -65,6 +71,12 @@ const PopUpCart = () => {
       })
     );
   };
+
+  useEffect(() => {
+    if (items.length === 0) {
+      closePopUpCart();
+    }
+  }, [items, closePopUpCart])
 
   return (
     <>
@@ -86,12 +98,8 @@ const PopUpCart = () => {
               Bạn đã thêm{" "}
               <Link
                 to="/gio-hang"
-                className="text-red-700 inline-block line-clamp-2"
-              >
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Cupiditate cumque, quo inventore, porro consequuntur ullam
-                placeat sed facere dolor aut ea neque amet enim quam ipsa
-                eveniet odit id voluptate.
+                className="text-red-700 inline-block"
+              >{newItem?.name}
               </Link>{" "}
               vào giỏ hàng
             </p>
@@ -102,35 +110,46 @@ const PopUpCart = () => {
             </h1>
             <table className="w-full">
               <thead className="block">
-                <tr className="relative flex border-b border-b-zinc-200">
-                  <th className="w-1/2 text-left py-4">Sản phẩm</th>
+                <tr className="relative flex border-b border-b-zinc-300">
+                  <th className="w-[15%] text-left py-4">Sản phẩm</th>
+                  <th className="w-[35%] text-left py-4"></th>
                   <th className="w-[15%] text-center py-4">Giá</th>
                   <th className="w-1/5 text-center py-4">Số lượng</th>
                   <th className="w-[15%] text-right py-4">Tổng tiền</th>
                 </tr>
               </thead>
-              <tbody className="block overflow-y-auto max-h-[260px]">
+              <tbody className="block overflow-y-auto max-h-72">
                 {items.map((item) => (
                   <tr
                     key={item.id}
-                    className="border-b flex items-center border-b-zinc-200"
+                    className="border-b flex items-center border-b-zinc-300"
                   >
-                    <td className="w-1/2 text-left">
-                      <div className="flex items-start space-x-10">
-                        <Link
-                          to={"/" + item.slug}
-                          className="w-[120px] h-[130px]"
-                        >
-                          <img
-                            src={item.image}
-                            alt={item.name}
-                            className="h-full w-full py-2.5 pr-2.5"
-                          />
-                        </Link>
-                        <div className="py-4">
-                          <p className="line-clamp-2 mb-2">{item.name}</p>
-                          <button>Xoa</button>
-                        </div>
+                    <td className="w-[15%] text-left">
+                      <Link
+                        to={"/" + item.slug}
+                      >
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="py-2.5 pr-2.5"
+                        />
+                      </Link>
+                    </td>
+                    <td className="w-[35%] text-left py-4 h-[136px]">
+                      <div className="ml-5 ">
+                        <Link to={"/" + item.slug} className="line-clamp-2 mb-1 pr-4 max-w-[250px] transition hover:text-red-700">{item.name}</Link>
+                        <button className="text-zinc-500 leading-7 flex items-center space-x-1.5 mb-0.5" onClick={() =>
+                          dispatch(deleteItemCart(item.id))
+                        }>
+                          <Close className="w-2.5 h-2.5" />
+                          <span>
+                            Xóa
+                          </span>
+                        </button>
+                        {item.id === newItem?.id && <p className="flex items-center space-x-1.5 text-rose-500">
+                          <Check className="w-3.5 h-3.5" />
+                          <span>Sản phẩm vừa thêm</span>
+                        </p>}
                       </div>
                     </td>
                     <td className="w-[15%] text-center py-4">

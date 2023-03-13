@@ -18,6 +18,7 @@ const ProductCard = ({ product, isCarousel = false }: ProductCard) => {
   const [isHoverProductCard, setIsHoverProductCard] = useState(false);
   const dispatch = useDispatch();
 
+
   return (
     <div
       className={`select-none border boder-solid border-zinc-300 hover:shadow-card ${isCarousel && "border-l-0 border-t-0"

@@ -13,11 +13,13 @@ export type CartItem = {
 type CartState = {
   items: CartItem[];
   total: number;
+  newItem: CartItem | null;
 };
 
 const initialState: CartState = {
   items: [],
   total: 0,
+  newItem: null,
 };
 
 const cartSlice = createSlice({
@@ -39,6 +41,7 @@ const cartSlice = createSlice({
       } else {
         state.items.push(newItem);
       }
+      state.newItem = newItem;
       state.total += newItem.cost * newItem.quantity;
     },
     subItemCart: (state, action: PayloadAction<CartItem>) => {
@@ -67,12 +70,13 @@ const cartSlice = createSlice({
 
       if (itemInCart) {
         if (newItem.quantity > itemInCart.stock) {
-          return;
+          newItem.quantity = itemInCart.stock;
         }
+
         state.total -= itemInCart.cost * itemInCart.quantity; // subtract old cost
         state.total += newItem.cost * newItem.quantity; // add new cost
-        itemInCart.quantity = newItem.quantity; // update quantity
         itemInCart.cost = newItem.cost; // update cost
+        itemInCart.quantity = newItem.quantity; // update quantity
       }
     },
     deleteItemCart: (state, action: PayloadAction<CartItem["id"]>) => {

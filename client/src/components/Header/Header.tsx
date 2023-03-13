@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { memo, useState, ChangeEvent } from "react";
 import { Link } from "react-router-dom";
 import {
   AngleDown,
@@ -22,6 +22,8 @@ import { useGlobalContext } from "../../context/appContext";
 import { useAppSelector } from "../../hooks/redux";
 import Cart from "../Cart/Cart";
 import { CartItem } from "../../redux/reducers/cartSlice";
+import { getProducts } from "../../services/products";
+import { useDispatch } from "react-redux";
 
 const variants = {
   open: {
@@ -52,16 +54,29 @@ const totalCartItemCount = (items: CartItem[]) =>
 
 const Header = () => {
   const { openNavMobile } = useGlobalContext();
-
+  const dispatch = useDispatch();
   const [searchCategory, setSearchCategory] = useState(searchCategories[0]);
   const [isOpenCategory, setOpenCategory] = useState(false);
-  // eslint-disable-next-line no-debugger
   const { isOpenNavDesktopLeft, toggleNavDesktopLeft } = useGlobalContext();
   const { items } = useAppSelector((state) => state.cart);
+  const { products } = useAppSelector((state) => state.product.datas)
 
   const { isLoggedIn } = useAppSelector((state) => state.auth);
 
-  console.log(items)
+  const [timeOutSearch, setTimeOutSearch] = useState<number>(0)
+
+  const handleSearchValue = (e: ChangeEvent<HTMLInputElement>) => {
+    clearTimeout(timeOutSearch);
+    const timeout = setTimeout(() => {
+      if (e.target.value) {
+        getProducts(`${import.meta.env.VITE_API}/api/product/get/Tất cả sản phẩm?name=${e.target.value}`, dispatch);
+      }
+    }, 1000)
+    setTimeOutSearch(timeout)
+  }
+
+
+  console.log(products);
 
   return (
     <header>
@@ -160,6 +175,7 @@ const Header = () => {
                   type="text"
                   className="w-full flex-auto min-w-0 border border-zinc-200 px-3 text-[13px] placeholder:text-zinc-400/70 focus:outline-none caret-red-700"
                   placeholder="Tìm kiếm sản phẩm..."
+                  onChange={handleSearchValue}
                 />
                 <button className="bg-red-700 flex-none px-5 text-white uppercase text-center text-xs leading-[42px]">
                   Tìm kiếm
