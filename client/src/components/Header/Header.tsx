@@ -21,9 +21,10 @@ import { motion } from "framer-motion";
 import { useGlobalContext } from "../../context/appContext";
 import { useAppSelector } from "../../hooks/redux";
 import Cart from "../Cart/Cart";
-import { CartItem } from "../../redux/reducers/cartSlice";
 import { getProducts } from "../../services/products";
 import { useDispatch } from "react-redux";
+import formatVnd from "../../utils/formatVnd";
+import { getProductFailed } from "../../redux/reducers/productSlice";
 
 const variants = {
   open: {
@@ -49,8 +50,7 @@ const variants = {
 
 
 const searchCategories = ["Sản phẩm", "Tin tức"];
-const totalCartItemCount = (items: CartItem[]) =>
-  items.reduce((a, b) => a + 1 * b.quantity, 0);
+
 
 const Header = () => {
   const { openNavMobile } = useGlobalContext();
@@ -58,7 +58,7 @@ const Header = () => {
   const [searchCategory, setSearchCategory] = useState(searchCategories[0]);
   const [isOpenCategory, setOpenCategory] = useState(false);
   const { isOpenNavDesktopLeft, toggleNavDesktopLeft } = useGlobalContext();
-  const { items } = useAppSelector((state) => state.cart);
+  const { length } = useAppSelector((state) => state.cart);
   const { products } = useAppSelector((state) => state.product.datas)
 
   const { isLoggedIn } = useAppSelector((state) => state.auth);
@@ -70,13 +70,14 @@ const Header = () => {
     const timeout = setTimeout(() => {
       if (e.target.value) {
         getProducts(`${import.meta.env.VITE_API}/api/product/get/Tất cả sản phẩm?name=${e.target.value}`, dispatch);
+      } else {
+        dispatch(getProductFailed(""))
       }
-    }, 1000)
+    }, 500)
     setTimeOutSearch(timeout)
   }
 
 
-  console.log(products);
 
   return (
     <header>
@@ -141,8 +142,8 @@ const Header = () => {
 
             {/* Search */}
             <div className="w-1/2 px-4 hidden lg:block">
-              <form className="h-full w-full flex items-center justify-center">
-                <div className="relative min-w-[150px] xl:min-w-[170px]  flex-auto inline-block h-full border border-zinc-200 border-r-0">
+              <form className="h-full w-full flex items-center relative">
+                <div className="relative min-w-[150px] flex-auto inline-block h-full border border-zinc-200 border-r-0">
                   <button
                     onClick={() => setOpenCategory((prev) => !prev)}
                     type="button"
@@ -171,6 +172,7 @@ const Header = () => {
                     ))}
                   </motion.ul>
                 </div>
+
                 <input
                   type="text"
                   className="w-full flex-auto min-w-0 border border-zinc-200 px-3 text-[13px] placeholder:text-zinc-400/70 focus:outline-none caret-red-700"
@@ -180,6 +182,19 @@ const Header = () => {
                 <button className="bg-red-700 flex-none px-5 text-white uppercase text-center text-xs leading-[42px]">
                   Tìm kiếm
                 </button>
+                {products.length > 0 && <ul className="absolute top-full left-0 z-50 w-full bg-white shadow-2xl rounded-md p-2">
+                  {products.map((product) =>
+                    <li key={product.id} className="w-full flex items-center space-x-2">
+                      <div className="w-28 h-28">
+                        <img src={product.images[1].src} alt={product.name} />
+                      </div>
+                      <div>
+                        <h2>{product.name}</h2>
+                        <span>{formatVnd(product.cost)}</span>
+                      </div>
+                    </li>
+                  )}
+                </ul>}
               </form>
             </div>
 
@@ -192,7 +207,7 @@ const Header = () => {
                 >
                   <CartShopping className="w-4 h-4 mx-auto" />
                   <span className="absolute -top-1 -right-2 w-5 h-5 lg:w-6 lg:h-6 lg:-right-2.5 lg:-top-2 bg-red-700 rounded-full text-white text-center flex items-center justify-center">
-                    {totalCartItemCount(items)}
+                    {length}
                   </span>
                 </Link>
                 <Cart />
@@ -246,8 +261,8 @@ const Header = () => {
               </button>
             </form>
           </div>
-        </Container>
-      </div>
+        </Container >
+      </div >
       <div className="hidden lg:block w-full bg-zinc-200/75 border-b border-b-zinc-200">
         <Container className="flex items-center px-0">
           {/* NavDesktop Left */}
@@ -285,7 +300,7 @@ const Header = () => {
           </div>
         </Container>
       </div>
-    </header>
+    </header >
   );
 };
 

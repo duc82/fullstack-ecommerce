@@ -93,6 +93,7 @@ export const productSlice = createSlice({
       action: PayloadAction<InitialProduct["error"]>
     ) => {
       state.isLoading = false;
+      state.datas.products = [];
       state.error = action.payload;
     },
   },

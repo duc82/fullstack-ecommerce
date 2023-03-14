@@ -14,12 +14,14 @@ type CartState = {
   items: CartItem[];
   total: number;
   newItem: CartItem | null;
+  length: number;
 };
 
 const initialState: CartState = {
   items: [],
   total: 0,
   newItem: null,
+  length: 0,
 };
 
 const cartSlice = createSlice({
@@ -41,6 +43,7 @@ const cartSlice = createSlice({
       } else {
         state.items.push(newItem);
       }
+      state.length += newItem.quantity;
       state.newItem = newItem;
       state.total += newItem.cost * newItem.quantity;
     },
@@ -56,6 +59,7 @@ const cartSlice = createSlice({
           return;
         }
         itemInCart.quantity -= newItem.quantity;
+        state.length -= newItem.quantity;
         state.total -= newItem.cost * newItem.quantity;
       }
     },
@@ -73,6 +77,8 @@ const cartSlice = createSlice({
           newItem.quantity = itemInCart.stock;
         }
 
+        state.length -= itemInCart.quantity; // subtract old length
+        state.length += newItem.quantity; // add new length
         state.total -= itemInCart.cost * itemInCart.quantity; // subtract old cost
         state.total += newItem.cost * newItem.quantity; // add new cost
         itemInCart.cost = newItem.cost; // update cost
@@ -86,6 +92,7 @@ const cartSlice = createSlice({
         const deletedCost =
           state.items[deletedIndex].cost * state.items[deletedIndex].quantity;
         state.total -= deletedCost;
+        state.length -= state.items[deletedIndex].quantity;
         state.items.splice(deletedIndex, 1);
       }
     },

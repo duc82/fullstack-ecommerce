@@ -112,7 +112,7 @@ const PopUpCart = () => {
               <thead className="block">
                 <tr className="relative flex border-b border-b-zinc-300">
                   <th className="w-[15%] text-left py-4">Sản phẩm</th>
-                  <th className="w-[35%] text-left py-4"></th>
+                  <th className="w-[35%] py-4"></th>
                   <th className="w-[15%] text-center py-4">Giá</th>
                   <th className="w-1/5 text-center py-4">Số lượng</th>
                   <th className="w-[15%] text-right py-4">Tổng tiền</th>

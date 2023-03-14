@@ -99,9 +99,8 @@ const productController = {
     if (name) {
       obj.where = Sequelize.where(
         Sequelize.fn("unaccent", Sequelize.col("Product.name")),
-        {
-          [Op.iLike]: `%${name}%`,
-        }
+        Op.iLike,
+        Sequelize.fn("unaccent", `${name}%`)
       );
     }
 
