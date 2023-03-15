@@ -65,13 +65,17 @@ const Header = () => {
 
   const [timeOutSearch, setTimeOutSearch] = useState<number>(0)
 
+  const [isOpenSearch, setIsOpenSearch] = useState(false);
+
   const handleSearchValue = (e: ChangeEvent<HTMLInputElement>) => {
     clearTimeout(timeOutSearch);
     const timeout = setTimeout(() => {
       if (e.target.value) {
         getProducts(`${import.meta.env.VITE_API}/api/product/get/Tất cả sản phẩm?name=${e.target.value}`, dispatch);
+        setIsOpenSearch(true)
       } else {
         dispatch(getProductFailed(""))
+        setIsOpenSearch(false)
       }
     }, 500)
     setTimeOutSearch(timeout)
@@ -182,16 +186,18 @@ const Header = () => {
                 <button className="bg-red-700 flex-none px-5 text-white uppercase text-center text-xs leading-[42px]">
                   Tìm kiếm
                 </button>
-                {products.length > 0 && <ul className="absolute top-full left-0 z-50 w-full bg-white shadow-2xl rounded-md p-2">
+                {products.length > 0 && <ul className="absolute top-full left-0 z-50 w-full bg-white shadow-2xl rounded-md px-2.5">
                   {products.map((product) =>
                     <li key={product.id} className="w-full flex items-center space-x-2">
-                      <div className="w-28 h-28">
-                        <img src={product.images[1].src} alt={product.name} />
-                      </div>
-                      <div>
-                        <h2>{product.name}</h2>
-                        <span>{formatVnd(product.cost)}</span>
-                      </div>
+                      <Link to={"/" + product.slug}>
+                        <div className="w-28 h-28">
+                          <img src={product.images[1].src} alt={product.name} />
+                        </div>
+                        <div>
+                          <h2>{product.name}</h2>
+                          <span>{formatVnd(product.cost)}</span>
+                        </div>
+                      </Link>
                     </li>
                   )}
                 </ul>}
